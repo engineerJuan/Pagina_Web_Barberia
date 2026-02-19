@@ -1,0 +1,33 @@
+# Dependencias
+node_modules/
+package-lock.json
+package.json
+
+# Archivos de entorno
+.env
+.env.local
+.env.production
+
+# Carpetas de desarrollo
+.vscode/
+.idea/
+*.sublime-*
+.DS_Store
+Thumbs.db
+
+# ARCHIVOS DE SEGURIDAD (NUNCA SUBIR A GITHUB)
+js/auth.js
+admin-login.html
+admin-panel.html
+js/admin.js
+css/admin.css
+
+# Imágenes subidas por usuarios
+img/productos/subidas/
+img/ropa/subidas/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

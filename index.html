@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barber & Drinks | Studio Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <span class="logo-bar">BARBER</span><span class="logo-drinks">&DRINKS</span>
+            </div>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="active">Inicio</a></li>
+                    <li><a href="#servicios">Servicios</a></li>
+                    <li><a href="#ubicacion">Ubicación</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                    <li><a href="tienda.html" class="tienda-link">Tienda</a></li>
+                </ul>
+                <!-- Redes sociales en menú móvil -->
+                <div class="redes-sociales">
+                    <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </nav>
+
+            <a href="tienda.html" class="btn-header">
+                <i class="fas fa-store"></i> Tienda
+            </a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Menú">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- BOTÓN WHATSAPP FLOTANTE -->
+    <a href="https://wa.me/525660797723?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20servicios." 
+       class="whatsapp-float" 
+       target="_blank">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">¡Chatea con nosotros!</span>
+    </a>
+
+    <main>
+        <!-- SECCIÓN HERO -->
+        <section class="hero" id="inicio">
+            <div class="hero-background">
+                <img src="img/hero-bg.jpg" alt="Barbería" class="hero-bg-img" onerror="this.style.backgroundColor='#f0f0f0'">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="container hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">Corte & Experiencia <span class="highlight">Premium</span></h1>
+                    <p class="hero-subtitle">Especialistas con más de 5 años de experiencia. Cuidamos tu imagen con técnicas de vanguardia y productos de alta gama.</p>
+                    <div class="hero-buttons">
+                        <a href="tienda.html" class="btn btn-primary">Ver Tienda <i class="fas fa-arrow-right"></i></a>
+                        <a href="#servicios" class="btn btn-outline">Nuestros Servicios</a>
+                    </div>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <span class="stat-number">5+</span>
+                        <span class="stat-label">Años de experiencia</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">1000+</span>
+                        <span class="stat-label">Clientes satisfechos</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">4.9</span>
+                        <span class="stat-label">Calificación ★</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN SERVICIOS -->
+        <section class="section" id="servicios">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Servicios <span class="highlight">Especializados</span></h2>
+                    <p class="section-subtitle">Experiencia premium en cada corte</p>
+                </div>
+                
+                <div class="split-container">
+                    <div class="split-text">
+                        <div class="servicio-item">
+                            <div class="servicio-header">
+                                <h3>Corte de Cabello</h3>
+                                <span class="servicio-precio">$250</span>
+                            </div>
+                            <p class="servicio-desc">Corte con navaja, tijera y máquina. Incluye lavado y styling.</p>
+                        </div>
+                        
+                        <div class="servicio-item">
+                            <div class="servicio-header">
+                                <h3>Arreglo de Barba</h3>
+                                <span class="servicio-precio">$180</span>
+                            </div>
+                            <p class="servicio-desc">Delineado, perfilado con navaja y toalla caliente.</p>
+                        </div>
+                        
+                        <div class="servicio-item">
+                            <div class="servicio-header">
+                                <h3>Tinte y Colorimetría</h3>
+                                <span class="servicio-precio">$530</span>
+                            </div>
+                            <p class="servicio-desc">Tinte profesional y asesoría de color.</p>
+                        </div>
+                        
+                        <div class="servicio-item">
+                            <div class="servicio-header">
+                                <h3>Limpieza Facial</h3>
+                                <span class="servicio-precio">$220</span>
+                            </div>
+                            <p class="servicio-desc">Limpieza profunda, exfoliación y mascarilla.</p>
+                        </div>
+                        
+                        <div class="servicio-item">
+                            <div class="servicio-header">
+                                <h3>Paquete Novio</h3>
+                                <span class="servicio-precio">$650</span>
+                            </div>
+                            <p class="servicio-desc">Corte, barba, limpieza facial y bebida de cortesía.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="split-image">
+                        <img src="img/a2.jpg" alt="Servicios de Barbería" class="servicio-imagen" onerror="this.style.backgroundColor='#f0f0f0'">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN UBICACIÓN -->
+        <section class="section" id="ubicacion">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Nuestra <span class="highlight">Ubicación</span></h2>
+                    <p class="section-subtitle">Visítanos en Calimaya, Estado de México</p>
+                </div>
+                
+                <div class="ubicacion-grid">
+                    <div class="mapa-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.0517384491194!2d-99.61747192435817!3d19.161518847443985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85cd88c1b6d3a4b7%3A0x9b0b8e8e8e8e8e8e!2sCalimaya%2C%20M%C3%A9x.!5e0!3m2!1ses!2smx!4v1700000000000!5m2!1ses!2smx" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                    
+                    <div class="ubicacion-info">
+                        <div class="info-card">
+                            <div class="info-icon">
+                                <i class="fas fa-map-pin"></i>
+                            </div>
+                            <div class="info-detalles">
+                                <h4>Dirección</h4>
+                                <p>Calimaya, Estado de México, México. 52200</p>
+                                <p class="info-detalle-menor">Calimaya de Díaz González, Méx.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="info-detalles">
+                                <h4>Horario</h4>
+                                <p><span class="dia">Lunes - Viernes:</span> 10:00 AM - 8:00 PM</p>
+                                <p><span class="dia">Sábado:</span> 10:00 AM - 2:00 PM</p>
+                                <p><span class="dia">Domingo:</span> Cerrado</p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card">
+                            <div class="info-icon">
+                                <i class="fas fa-parking"></i>
+                            </div>
+                            <div class="info-detalles">
+                                <h4>Estacionamiento</h4>
+                                <p>Contamos con estacionamiento propio</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN CONTACTO -->
+        <section class="contacto-final" id="contacto">
+            <div class="container">
+                <div class="contacto-grid-tres">
+                    <div class="contacto-col">
+                        <h3>Navegación</h3>
+                        <ul>
+                            <li><a href="#inicio">Inicio</a></li>
+                            <li><a href="#servicios">Servicios</a></li>
+                            <li><a href="#ubicacion">Ubicación</a></li>
+                            <li><a href="#contacto">Contacto</a></li>
+                            <li><a href="tienda.html">Tienda</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="contacto-col">
+                        <h3>Servicios</h3>
+                        <ul class="servicios-lista">
+                            <li><a href="#servicios" class="servicio-link">Corte de Cabello</a></li>
+                            <li><a href="#servicios" class="servicio-link">Arreglo de Barba</a></li>
+                            <li><a href="#servicios" class="servicio-link">Tinte y Colorimetría</a></li>
+                            <li><a href="#servicios" class="servicio-link">Limpieza Facial</a></li>
+                            <li><a href="#servicios" class="servicio-link">Paquete Novio</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="contacto-col">
+                        <h3>Contacto</h3>
+                        <ul class="contacto-lista">
+                            <li><i class="fas fa-map-marker-alt"></i> Calimaya, Estado de México</li>
+                            <li><i class="fas fa-phone-alt"></i> +52 722 123 4567</li>
+                            <li><i class="fas fa-envelope"></i> contacto@barberdrinks.com</li>
+                        </ul>
+                        
+                        <div class="redes-sociales">
+                            <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-final">
+        <div class="container">
+            <p>© 2026 Barber & Drinks. Todos los derechos reservados.</p>
+            <p class="footer-legal">Aviso de Privacidad</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
