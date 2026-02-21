@@ -10,6 +10,7 @@ const Lightbox = {
     init: function() {
         console.log('Lightbox inicializado');
         this.configurarEventos();
+        this.configurarScrollTactil();
     },
     
     // ===== CONFIGURAR EVENTOS GLOBALES =====
@@ -46,6 +47,58 @@ const Lightbox = {
         });
     },
     
+    // ===== CONFIGURAR SCROLL TÁCTIL PARA MÓVIL =====
+    configurarScrollTactil: function() {
+        // Detectar el movimiento táctil en el modal para actualizar el contador
+        const modalArea = document.getElementById('modalImageArea');
+        if (modalArea) {
+            modalArea.addEventListener('scroll', () => {
+                if (!this.currentImages) return;
+                
+                const containerWidth = modalArea.clientWidth;
+                const scrollPosition = modalArea.scrollLeft;
+                const newIndex = Math.round(scrollPosition / containerWidth);
+                
+                if (newIndex >= 0 && newIndex < this.currentImages.length && newIndex !== this.currentIndex) {
+                    this.currentIndex = newIndex;
+                    console.log("Imagen actual por scroll:", this.currentIndex + 1);
+                    
+                    // Actualizar algo si es necesario (contador, etc.)
+                    this.actualizarIndicadorModal();
+                }
+            });
+        }
+        
+        // Detectar scroll táctil en el visor completo
+        const viewerContainer = document.querySelector('.image-viewer-container');
+        if (viewerContainer) {
+            viewerContainer.addEventListener('scroll', () => {
+                if (!this.currentImages) return;
+                
+                const containerWidth = viewerContainer.clientWidth;
+                const scrollPosition = viewerContainer.scrollLeft;
+                const newIndex = Math.round(scrollPosition / containerWidth);
+                
+                if (newIndex >= 0 && newIndex < this.currentImages.length && newIndex !== this.currentViewerIndex) {
+                    this.currentViewerIndex = newIndex;
+                    console.log("Visor imagen actual:", this.currentViewerIndex + 1);
+                    
+                    // Actualizar contador del visor
+                    const counter = document.getElementById('imageCounter');
+                    if (counter) {
+                        counter.textContent = `${this.currentViewerIndex + 1} / ${this.currentImages.length}`;
+                    }
+                }
+            });
+        }
+    },
+    
+    // ===== ACTUALIZAR INDICADOR DEL MODAL =====
+    actualizarIndicadorModal: function() {
+        // Si tienes algún indicador en el modal, actualízalo aquí
+        // Por ejemplo, podrías agregar puntos indicadores
+    },
+    
     // ===== ABRIR MODAL DE PRODUCTO =====
     abrirModal: function(producto, index = 0) {
         console.log('Abriendo modal para:', producto.nombre);
@@ -55,15 +108,16 @@ const Lightbox = {
         this.currentProduct = producto;
         this.currentIndex = index;
         this.tallaSeleccionada = null;
+        this.currentImages = producto.imagenes || [producto.img];
         
         const modal = document.getElementById('productModal');
-        const modalImg = document.getElementById('modalImg');
         const modalTitle = document.getElementById('modalTitle');
         const modalPrice = document.getElementById('modalPrice');
         const featuresList = document.getElementById('modalFeatures');
         const errorMsg = document.getElementById('talla-error');
+        const modalArea = document.getElementById('modalImageArea');
         
-        if (!modal || !modalImg || !modalTitle || !modalPrice) {
+        if (!modal || !modalTitle || !modalPrice) {
             console.error('Elementos del modal no encontrados');
             return;
         }
@@ -75,15 +129,40 @@ const Lightbox = {
         modalTitle.textContent = producto.nombre;
         modalPrice.textContent = producto.precioFormato || producto.precio;
         
-        // Muestra la imagen principal
-        const imagenes = producto.imagenes || [producto.img];
-        modalImg.src = imagenes[index] || producto.img;
-        
-        // Al hacer clic en la imagen, se abre el visor de pantalla completa
-        modalImg.onclick = () => {
-            console.log('Abriendo visor completo');
-            this.abrirVisor(imagenes, this.currentIndex);
-        };
+        // Limpiar y preparar el área de imágenes para scroll táctil
+        if (modalArea) {
+            modalArea.innerHTML = '';
+            modalArea.style.overflowX = 'auto';
+            modalArea.style.scrollSnapType = 'x mandatory';
+            modalArea.style.display = 'flex';
+            
+            // Agregar todas las imágenes para scroll horizontal
+            this.currentImages.forEach((imgSrc, i) => {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = producto.nombre;
+                img.className = 'modal-img';
+                img.style.scrollSnapAlign = 'center';
+                img.style.flexShrink = '0';
+                img.style.width = '100%';
+                img.style.height = 'auto';
+                img.style.maxHeight = '100%';
+                img.style.objectFit = 'contain';
+                
+                img.onclick = () => {
+                    this.abrirVisor(this.currentImages, i);
+                };
+                
+                modalArea.appendChild(img);
+            });
+            
+            // Hacer scroll a la imagen correspondiente
+            setTimeout(() => {
+                if (modalArea.children.length > 0) {
+                    modalArea.scrollLeft = index * modalArea.clientWidth;
+                }
+            }, 100);
+        }
         
         // Características
         if (producto.caracteristicas && featuresList) {
@@ -92,13 +171,13 @@ const Lightbox = {
             ).join('');
         }
         
-        // Configurar selector de tallas - VERSIÓN CORREGIDA
+        // Configurar selector de tallas
         this.setupSizeSelector(producto);
         
         // Configurar indicador de stock
         this.actualizarStockIndicator(producto.stock || 0);
         
-        // Configurar navegación del modal
+        // Configurar navegación del modal (solo para PC)
         this.configurarNavegacionModal();
         
         // Configurar botón WhatsApp
@@ -109,7 +188,7 @@ const Lightbox = {
         document.body.style.overflow = 'hidden';
     },
     
-    // ===== CONFIGURAR SELECTOR DE TALLAS (VERSIÓN CORREGIDA) =====
+    // ===== CONFIGURAR SELECTOR DE TALLAS =====
     setupSizeSelector: function(producto) {
         const tallaSection = document.getElementById('talla-section');
         const tallaContainer = document.getElementById('talla-botones');
@@ -126,7 +205,6 @@ const Lightbox = {
         // Limpiar contenedor
         tallaContainer.innerHTML = '';
         
-        // ===== VERIFICACIÓN CORREGIDA =====
         // Comprobar si es ropa Y tiene stockPorTalla definido
         const esRopa = producto.categoria && producto.categoria.toLowerCase() === 'ropa';
         const tieneTallas = producto.stockPorTalla && Object.keys(producto.stockPorTalla).length > 0;
@@ -202,7 +280,7 @@ const Lightbox = {
         }
     },
     
-    // ===== CONFIGURAR NAVEGACIÓN DE IMÁGENES =====
+    // ===== CONFIGURAR NAVEGACIÓN DE IMÁGENES (SOLO PC) =====
     configurarNavegacionModal: function() {
         const prevBtn = document.getElementById('prevImageBtn');
         const nextBtn = document.getElementById('nextImageBtn');
@@ -237,7 +315,7 @@ const Lightbox = {
         }
     },
     
-    // ===== NAVEGAR ENTRE IMÁGENES =====
+    // ===== NAVEGAR ENTRE IMÁGENES (PARA PC) =====
     navegarImagen: function(direccion) {
         if (!this.currentProduct) return;
         
@@ -249,10 +327,9 @@ const Lightbox = {
             this.currentIndex = (this.currentIndex + 1) % imagenes.length;
         }
         
-        const modalImg = document.getElementById('modalImg');
-        if (modalImg) {
-            modalImg.src = imagenes[this.currentIndex];
-            console.log(`Imagen cambiada a índice ${this.currentIndex}`);
+        const modalArea = document.getElementById('modalImageArea');
+        if (modalArea) {
+            modalArea.scrollLeft = this.currentIndex * modalArea.clientWidth;
         }
     },
     
@@ -293,13 +370,41 @@ const Lightbox = {
         this.currentViewerIndex = index;
         
         const viewer = document.getElementById('imageViewer');
-        const viewerImg = document.getElementById('viewerImg');
+        const viewerContainer = document.querySelector('.image-viewer-container');
         const counter = document.getElementById('imageCounter');
         
-        if (!viewer || !viewerImg || !counter) return;
+        if (!viewer || !viewerContainer || !counter) return;
         
-        viewerImg.src = imagenes[index];
+        // Limpiar y preparar contenedor para scroll táctil
+        viewerContainer.innerHTML = '';
+        viewerContainer.style.overflowX = 'auto';
+        viewerContainer.style.scrollSnapType = 'x mandatory';
+        viewerContainer.style.display = 'flex';
+        viewerContainer.style.alignItems = 'center';
+        
+        // Agregar todas las imágenes
+        imagenes.forEach((imgSrc, i) => {
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.alt = 'Producto';
+            img.className = 'viewer-img';
+            img.style.scrollSnapAlign = 'center';
+            img.style.flexShrink = '0';
+            img.style.width = '100%';
+            img.style.height = 'auto';
+            img.style.maxHeight = '95vh';
+            img.style.objectFit = 'contain';
+            viewerContainer.appendChild(img);
+        });
+        
         counter.textContent = `${index + 1} / ${imagenes.length}`;
+        
+        // Hacer scroll a la imagen correspondiente
+        setTimeout(() => {
+            if (viewerContainer.children.length > 0) {
+                viewerContainer.scrollLeft = index * viewerContainer.clientWidth;
+            }
+        }, 100);
         
         viewer.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -307,7 +412,7 @@ const Lightbox = {
         this.configurarNavegacionVisor();
     },
     
-    // ===== CONFIGURAR NAVEGACIÓN DEL VISOR =====
+    // ===== CONFIGURAR NAVEGACIÓN DEL VISOR (SOLO PC) =====
     configurarNavegacionVisor: function() {
         const prevBtn = document.getElementById('viewerPrevBtn');
         const nextBtn = document.getElementById('viewerNextBtn');
@@ -343,7 +448,7 @@ const Lightbox = {
         }
     },
     
-    // ===== NAVEGAR EN EL VISOR =====
+    // ===== NAVEGAR EN EL VISOR (PARA PC) =====
     navegarVisor: function(direccion) {
         if (!this.currentImages) return;
         
@@ -353,11 +458,11 @@ const Lightbox = {
             this.currentViewerIndex = (this.currentViewerIndex + 1) % this.currentImages.length;
         }
         
-        const viewerImg = document.getElementById('viewerImg');
+        const viewerContainer = document.querySelector('.image-viewer-container');
         const counter = document.getElementById('imageCounter');
         
-        if (viewerImg) {
-            viewerImg.src = this.currentImages[this.currentViewerIndex];
+        if (viewerContainer) {
+            viewerContainer.scrollLeft = this.currentViewerIndex * viewerContainer.clientWidth;
         }
         
         if (counter) {

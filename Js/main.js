@@ -41,10 +41,18 @@ function initMobileMenu() {
             navMenu.classList.toggle('active');
         });
         
+        // Cerrar al hacer clic en un enlace
         navMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
             });
+        });
+        
+        // Cerrar al hacer clic fuera
+        document.addEventListener('click', function(event) {
+            if (!navMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+                navMenu.classList.remove('active');
+            }
         });
     }
 }
@@ -63,10 +71,12 @@ function initFilters() {
 function handleFilterClick(event) {
     const pill = event.currentTarget;
     
+    // Remover clase active de todos
     document.querySelectorAll('.pill').forEach(p => {
         p.classList.remove('active');
     });
     
+    // Agregar clase active al clickeado
     pill.classList.add('active');
     
     const filter = pill.dataset.filter;
@@ -104,6 +114,8 @@ function initModalClose() {
                 e.stopPropagation();
                 if (typeof Lightbox !== 'undefined' && Lightbox) {
                     Lightbox.cerrarModal();
+                } else {
+                    window.closeModal();
                 }
             });
         }
@@ -112,6 +124,8 @@ function initModalClose() {
             if (e.target === this || e.target.classList.contains('modal-overlay')) {
                 if (typeof Lightbox !== 'undefined' && Lightbox) {
                     Lightbox.cerrarModal();
+                } else {
+                    window.closeModal();
                 }
             }
         });
@@ -125,6 +139,8 @@ function initModalClose() {
         viewerClose.addEventListener('click', function() {
             if (typeof Lightbox !== 'undefined' && Lightbox) {
                 Lightbox.cerrarVisor();
+            } else {
+                if (viewer) viewer.classList.remove('active');
             }
         });
         
@@ -132,6 +148,8 @@ function initModalClose() {
             if (e.target === this) {
                 if (typeof Lightbox !== 'undefined' && Lightbox) {
                     Lightbox.cerrarVisor();
+                } else {
+                    viewer.classList.remove('active');
                 }
             }
         });
@@ -186,6 +204,8 @@ function initWhatsAppButton() {
     const waFloat = document.querySelector('.whatsapp-float');
     if (isShop && waFloat) {
         waFloat.style.display = 'none';
+    } else if (waFloat) {
+        waFloat.style.display = 'flex';
     }
 }
 
@@ -196,4 +216,31 @@ window.closeModal = function() {
         modal.classList.remove('active');
         document.body.style.overflow = 'auto';
     }
+    
+    const viewer = document.getElementById('imageViewer');
+    if (viewer) {
+        viewer.classList.remove('active');
+    }
 };
+
+// ===== NAVEGACIÓN ENTRE PÁGINAS =====
+window.irAInicio = function() {
+    window.location.href = 'index.html';
+};
+
+window.irATienda = function() {
+    window.location.href = 'tienda.html';
+};
+
+window.irAAdmin = function() {
+    window.location.href = 'admin-panel.html';
+};
+
+// ===== EXPORTAR FUNCIONES PARA USO GLOBAL =====
+window.initMobileMenu = initMobileMenu;
+window.initSmoothScroll = initSmoothScroll;
+window.initWhatsAppButton = initWhatsAppButton;
+window.initServiciosContacto = initServiciosContacto;
+window.initFilters = initFilters;
+window.initSearch = initSearch;
+window.initModalClose = initModalClose;

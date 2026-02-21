@@ -13,12 +13,11 @@ function cargarProductos() {
         productos.forEach(p => {
             if (p.categoria === 'ropa' && !p.stockPorTalla) {
                 console.warn('Producto de ropa sin stockPorTalla:', p.nombre);
-                // Asignar tallas por defecto si es necesario
                 p.stockPorTalla = { S: 0, M: 0, L: 0, XL: 0 };
             }
         });
     } else {
-        // Productos por defecto con múltiples imágenes y tallas CORRECTAS
+        // Productos por defecto
         productos = [
             {
                 id: 1,
@@ -70,7 +69,7 @@ function cargarProductos() {
             },
             {
                 id: 4,
-                nombre: "Sudera Dino Dreams",
+                nombre: "Sudadera Dino Dreams",
                 categoria: "ropa",
                 precio: "$450",
                 precioFormato: "$450",
@@ -91,7 +90,7 @@ function cargarProductos() {
             },
             {
                 id: 5,
-                nombre: "Sudera Good Vibes",
+                nombre: "Sudadera Good Vibes",
                 categoria: "ropa",
                 precio: "$450",
                 precioFormato: "$450",
@@ -144,7 +143,7 @@ window.openModal = function(id) {
         listado = productos;
     }
     
-    const producto = listado.find(p => p.id === id);
+    const producto = listado.find(p => p.id == id);
     
     if (producto) {
         console.log('Producto encontrado:', producto.nombre);

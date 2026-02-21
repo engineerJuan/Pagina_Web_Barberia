@@ -6,26 +6,19 @@
     <title>Tienda | Barber & Drinks</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="Css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-light">
     <header class="header">
         <div class="container header-container">
             <a href="index.html" class="back-link">
                 <i class="fas fa-arrow-left"></i>
-                <!-- <span>Inicio</span> --> <!-- Texto eliminado -->
+                <span></span>
             </a>
             
-            <!-- BÚSQUEDA ARRIBA - MOVIDA ANTES DE LOS FILTROS -->
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="Buscar producto...">
                 <i class="fas fa-search"></i>
-            </div>
-
-            <div style="display: flex; gap: 10px;">        
-                <a href="admin-login.html" class="btn-header btn-header-admin">
-                    <i class="fas fa-lock"></i> Admin
-                </a>
             </div>
 
             <button class="menu-toggle" id="menuToggle" aria-label="Menú">
@@ -35,20 +28,15 @@
             </button>
         </div>
         
-        <!-- Menú móvil - SIN REDES SOCIALES -->
-        <nav class="nav-menu" id="navMenu">
+        <!-- Menú SOLO para móvil (oculto en PC) -->
+        <nav class="nav-menu mobile-only" id="navMenu">
             <ul class="nav-list">
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="index.html#servicios">Servicios</a></li>
-                <li><a href="index.html#ubicacion">Ubicación</a></li>
-                <li><a href="index.html#contacto">Contacto</a></li>
-                <li><a href="tienda.html" class="tienda-link active">Tienda</a></li>
+                <li><a href="tienda.html" class="active">Tienda</a></li>
             </ul>
-            <!-- Redes sociales ELIMINADAS del menú -->
         </nav>
     </header>
 
-    <!-- BOTÓN WHATSAPP FLOTANTE -->
     <a href="https://wa.me/525660797723?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos." 
        class="whatsapp-float" 
        target="_blank">
@@ -63,11 +51,9 @@
             <button class="pill" data-filter="ropa" onclick="renderProductos('ropa')">Ropa</button>
         </div>
 
-        <!-- GRID DE PRODUCTOS -->
         <div id="productGrid" class="product-grid"></div>
     </main>
 
-    <!-- MODAL DE PRODUCTO -->
     <div id="productModal" class="modal">
         <div class="modal-overlay"></div>
         <div class="modal-container">
@@ -77,7 +63,6 @@
             
             <div class="modal-image-area" id="modalImageArea">
                 <img id="modalImg" src="" alt="Producto" class="modal-img">
-                
                 <button class="modal-nav prev" id="prevImageBtn">
                     <i class="fas fa-chevron-left"></i>
                 </button>
@@ -95,7 +80,6 @@
                     <span class="stock-text" id="stockText"></span>
                 </div>
                 
-                <!-- SELECTOR DE TALLAS -->
                 <div id="talla-section" class="talla-container" style="display: none;">
                     <span class="talla-label">
                         <i class="fas fa-ruler"></i> SELECCIONA TU TALLA:
@@ -112,7 +96,6 @@
                     <ul id="modalFeatures"></ul>
                 </div>
                 
-                <!-- BOTÓN WHATSAPP -->
                 <button class="btn-whatsapp-product" id="btnWhatsappModal">
                     <i class="fab fa-whatsapp"></i>
                     <span>COTIZAR POR WHATSAPP</span>
@@ -121,21 +104,17 @@
         </div>
     </div>
 
-    <!-- VISOR DE IMAGEN COMPLETA -->
     <div id="imageViewer" class="image-viewer">
         <button class="image-viewer-close" id="imageViewerClose">
             <i class="fas fa-times"></i>
         </button>
-        
         <button class="image-viewer-nav prev" id="viewerPrevBtn">
             <i class="fas fa-chevron-left"></i>
         </button>
-        
         <div class="image-viewer-container">
             <img id="viewerImg" src="" alt="Producto" class="viewer-img">
             <div class="image-viewer-counter" id="imageCounter"></div>
         </div>
-        
         <button class="image-viewer-nav next" id="viewerNextBtn">
             <i class="fas fa-chevron-right"></i>
         </button>
@@ -145,11 +124,14 @@
         <div class="container">
             <p>© 2026 Barber & Drinks. Todos los derechos reservados.</p>
             <p class="footer-legal">Aviso de Privacidad</p>
+            <a href="admin-login.html" class="btn-admin-footer">
+                <i class="fas fa-lock"></i> Admin
+            </a>
         </div>
     </footer>
 
-    <script src="Js/productos.js"></script>
-    <script src="Js/lightbox.js"></script>
-    <script src="Js/main.js"></script>
+    <script src="js/productos.js"></script>
+    <script src="js/lightbox.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
