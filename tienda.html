@@ -7,29 +7,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <!-- Preconexión para mejorar rendimiento -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body class="bg-light">
     <header class="header">
         <div class="container header-container">
-            <a href="index.html" class="back-link">
+            <a href="index.html" class="back-link" title="Volver al inicio">
                 <i class="fas fa-arrow-left"></i>
                 <span></span>
             </a>
             
             <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Buscar producto...">
+                <input type="text" id="searchInput" placeholder="Buscar producto..." aria-label="Buscar productos">
                 <i class="fas fa-search"></i>
             </div>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="Menú">
+            <button class="menu-toggle" id="menuToggle" aria-label="Menú" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
         </div>
-        
-        <!-- Menú SOLO para móvil (oculto en PC) -->
-        <nav class="nav-menu mobile-only" id="navMenu">
+
+        <!-- ✅ MENÚ HAMBURGUESA - CON CLASE ESPECÍFICA PARA TIENDA -->
+        <nav class="nav-menu tienda-menu" id="navMenu" aria-label="Menú móvil">
             <ul class="nav-list">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="tienda.html" class="active">Tienda</a></li>
@@ -37,36 +40,43 @@
         </nav>
     </header>
 
-    <a href="https://wa.me/525660797723?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos." 
+    <!-- BOTÓN WHATSAPP FLOTANTE MEJORADO -->
+    <a href="https://wa.me/527299635417?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos." 
        class="whatsapp-float" 
-       target="_blank">
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Contactar por WhatsApp">
         <i class="fab fa-whatsapp"></i>
         <span class="whatsapp-tooltip">¡Compra por WhatsApp!</span>
     </a>
 
     <main class="container">
-        <div class="filter-pills">
-            <button class="pill active" data-filter="todo" onclick="renderProductos('todo')">Todo</button>
-            <button class="pill" data-filter="grooming" onclick="renderProductos('grooming')">Productos</button>
-            <button class="pill" data-filter="ropa" onclick="renderProductos('ropa')">Ropa</button>
+        <!-- FILTROS MEJORADOS CON SEMÁNTICA -->
+        <div class="filter-pills" role="tablist" aria-label="Filtros de productos">
+            <button class="pill active" data-filter="todo" onclick="renderProductos('todo')" role="tab" aria-selected="true">Todo</button>
+            <button class="pill" data-filter="grooming" onclick="renderProductos('grooming')" role="tab" aria-selected="false">Productos</button>
+            <button class="pill" data-filter="perfumes" onclick="renderProductos('perfumes')" role="tab" aria-selected="false">Perfumes</button>
+            <button class="pill" data-filter="ropa" onclick="renderProductos('ropa')" role="tab" aria-selected="false">Ropa</button>
         </div>
 
-        <div id="productGrid" class="product-grid"></div>
+        <!-- GRID DE PRODUCTOS -->
+        <div id="productGrid" class="product-grid" aria-label="Lista de productos"></div>
     </main>
 
-    <div id="productModal" class="modal">
-        <div class="modal-overlay"></div>
+    <!-- MODAL DE PRODUCTO MEJORADO -->
+    <div id="productModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-overlay" tabindex="-1"></div>
         <div class="modal-container">
-            <button class="modal-close" id="closeModalBtn">
+            <button class="modal-close" id="closeModalBtn" aria-label="Cerrar modal">
                 <i class="fas fa-times"></i>
             </button>
             
-            <div class="modal-image-area" id="modalImageArea">
-                <img id="modalImg" src="" alt="Producto" class="modal-img">
-                <button class="modal-nav prev" id="prevImageBtn">
+            <div class="modal-image-area" id="modalImageArea" role="region" aria-label="Galería de imágenes">
+                <img id="modalImg" src="" alt="" class="modal-img">
+                <button class="modal-nav prev" id="prevImageBtn" aria-label="Imagen anterior">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                <button class="modal-nav next" id="nextImageBtn">
+                <button class="modal-nav next" id="nextImageBtn" aria-label="Imagen siguiente">
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
@@ -80,13 +90,14 @@
                     <span class="stock-text" id="stockText"></span>
                 </div>
                 
+                <!-- SELECTOR DE TALLAS MEJORADO -->
                 <div id="talla-section" class="talla-container" style="display: none;">
                     <span class="talla-label">
                         <i class="fas fa-ruler"></i> SELECCIONA TU TALLA:
                         <span id="tallas-disponibles-info" class="talla-stock-badge">0 DISPONIBLES</span>
                     </span>
-                    <div class="talla-grid" id="talla-botones"></div>
-                    <div id="talla-error" style="color: #d32f2f; font-size: 0.8rem; display: none; margin-top: 5px;">
+                    <div class="talla-grid" id="talla-botones" role="group" aria-label="Selector de tallas"></div>
+                    <div id="talla-error" class="talla-error" style="display: none;" role="alert">
                         Por favor selecciona una talla antes de cotizar.
                     </div>
                 </div>
@@ -96,7 +107,8 @@
                     <ul id="modalFeatures"></ul>
                 </div>
                 
-                <button class="btn-whatsapp-product" id="btnWhatsappModal">
+                <!-- BOTÓN WHATSAPP MEJORADO -->
+                <button class="btn-whatsapp-product" id="btnWhatsappModal" aria-label="Cotizar por WhatsApp">
                     <i class="fab fa-whatsapp"></i>
                     <span>COTIZAR POR WHATSAPP</span>
                 </button>
@@ -104,34 +116,37 @@
         </div>
     </div>
 
-    <div id="imageViewer" class="image-viewer">
-        <button class="image-viewer-close" id="imageViewerClose">
+    <!-- VISOR DE IMAGEN COMPLETA MEJORADO -->
+    <div id="imageViewer" class="image-viewer" role="dialog" aria-modal="true" aria-label="Visor de imagen completa">
+        <button class="image-viewer-close" id="imageViewerClose" aria-label="Cerrar visor">
             <i class="fas fa-times"></i>
         </button>
-        <button class="image-viewer-nav prev" id="viewerPrevBtn">
+        <button class="image-viewer-nav prev" id="viewerPrevBtn" aria-label="Imagen anterior">
             <i class="fas fa-chevron-left"></i>
         </button>
-        <div class="image-viewer-container">
-            <img id="viewerImg" src="" alt="Producto" class="viewer-img">
+        <div class="image-viewer-container" role="region" aria-label="Galería de imágenes">
+            <img id="viewerImg" src="" alt="" class="viewer-img">
             <div class="image-viewer-counter" id="imageCounter"></div>
         </div>
-        <button class="image-viewer-nav next" id="viewerNextBtn">
+        <button class="image-viewer-nav next" id="viewerNextBtn" aria-label="Imagen siguiente">
             <i class="fas fa-chevron-right"></i>
         </button>
     </div>
 
+    <!-- FOOTER MEJORADO -->
     <footer class="footer-final">
         <div class="container">
             <p>© 2026 Barber & Drinks. Todos los derechos reservados.</p>
-            <p class="footer-legal">Aviso de Privacidad</p>
-            <a href="admin-login.html" class="btn-admin-footer">
+            <p class="footer-legal" role="button" tabindex="0" aria-label="Aviso de Privacidad">Aviso de Privacidad</p>
+            <a href="admin-login.html" class="btn-admin-footer" aria-label="Panel de administración">
                 <i class="fas fa-lock"></i> Admin
             </a>
         </div>
     </footer>
 
-    <script src="js/productos.js"></script>
-    <script src="js/lightbox.js"></script>
-    <script src="js/main.js"></script>
+    <!-- SCRIPTS CON ATRIBUTOS DE RENDIMIENTO -->
+    <script src="js/productos.js" defer></script>
+    <script src="js/lightbox.js" defer></script>
+    <script src="js/main.js" defer></script>
 </body>
 </html>

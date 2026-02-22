@@ -1,5 +1,5 @@
 // ===== NÚMERO DE WHATSAPP =====
-const WHATSAPP_NUMBER = "525660797723";
+const WHATSAPP_NUMBER = "527299635417";
 
 // ===== INICIALIZACIÓN PRINCIPAL =====
 document.addEventListener('DOMContentLoaded', function() {

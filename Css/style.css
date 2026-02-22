@@ -47,18 +47,32 @@ body {
     background-color: var(--white);
     border-bottom: 1px solid var(--gray-border);
     z-index: 1000;
-    padding: 16px 0;
+    padding: 12px 0;
+    overflow: visible !important;
 }
 
 .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 60px;
+    overflow: visible !important;
 }
 
 .logo {
     font-size: 1.5rem;
     font-weight: 700;
+    flex-shrink: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.logo-bar, .logo-drinks {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
 }
 
 .logo-bar {
@@ -73,7 +87,11 @@ body {
 .nav-list {
     display: flex;
     list-style: none;
-    gap: 40px;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    height: 100%;
 }
 
 .nav-list a {
@@ -82,12 +100,17 @@ body {
     font-weight: 500;
     transition: var(--transition);
     position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 5px;
+    font-size: 0.95rem;
 }
 
 .nav-list a::after {
     content: '';
     position: absolute;
-    bottom: -4px;
+    bottom: -2px;
     left: 0;
     width: 0;
     height: 2px;
@@ -111,11 +134,13 @@ body {
     border-radius: 50px;
     text-decoration: none;
     font-weight: 500;
-    font-size: 0.875rem;
+    font-size: 0.9rem;
     transition: var(--transition);
     display: flex;
     align-items: center;
     gap: 8px;
+    height: 40px;
+    flex-shrink: 0;
 }
 
 .btn-header:hover {
@@ -123,17 +148,25 @@ body {
     transform: translateY(-2px);
 }
 
+.header-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    height: 100%;
+}
+
 .menu-toggle {
     display: none;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     width: 30px;
-    height: 21px;
+    height: 40px;
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
     z-index: 1001;
+    gap: 5px;
 }
 
 .menu-toggle span {
@@ -197,6 +230,11 @@ body {
 }
 
 .nav-menu .redes-sociales {
+    display: none;
+}
+
+/* Ocultar scrollbar en navegadores Webkit */
+.nav-menu::-webkit-scrollbar {
     display: none;
 }
 
@@ -376,6 +414,18 @@ body.bg-light .whatsapp-float {
 .btn-outline:hover {
     background-color: var(--black);
     color: var(--white);
+}
+
+/* ===== ESTILO PARA EL BOTÓN DE AGENDAR ===== */
+.btn-primary[style*="background-color: #1a73e8"] {
+    background-color: #1a73e8 !important;
+    border-color: #1a73e8 !important;
+}
+
+.btn-primary[style*="background-color: #1a73e8"]:hover {
+    background-color: #0d47a1 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
 }
 
 /* ===== DISEÑO CIRCULIÑO ===== */
@@ -1395,38 +1445,103 @@ body.bg-light .whatsapp-float {
     position: relative;
 }
 
-/* ===== MODO PC ===== */
+/* ===== AJUSTE PARA ELIMINAR BARRA DE NAVEGACIÓN EN PC ===== */
 @media (min-width: 769px) {
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 20px;
+        height: 60px;
+    }
+
+    .logo {
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
     .nav-menu {
         position: static !important;
         width: auto !important;
-        height: auto !important;
+        height: 100% !important;
         background: transparent !important;
         padding: 0 !important;
         border: none !important;
         box-shadow: none !important;
-        display: block !important;
+        display: flex !important;
         right: auto !important;
+        overflow: visible !important;
+        flex: 1;
+        align-items: center;
     }
-    
-    .nav-menu .nav-list {
+
+    .nav-list {
         display: flex !important;
         flex-direction: row !important;
-        gap: 30px !important;
-        margin: 0 !important;
-        padding: 0 !important;
+        justify-content: center;
+        gap: 25px;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        align-items: center;
+        height: 100%;
     }
-    
-    .nav-menu .nav-list a {
-        font-size: 1rem !important;
-        padding: 0 !important;
-        color: var(--black-mate) !important;
+
+    .nav-list a {
+        white-space: nowrap;
+        font-size: 0.95rem;
+        padding: 0 5px;
+        color: var(--black-mate);
+        font-weight: 500;
+        transition: var(--transition);
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        line-height: 1;
     }
-    
+
+    .nav-list a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--black);
+        transition: var(--transition);
+    }
+
+    .nav-list a:hover::after,
+    .nav-list a.active::after {
+        width: 100%;
+    }
+
+    .nav-list a.active {
+        font-weight: 600;
+    }
+
+    .header-actions {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+
+    .btn-header {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .menu-toggle {
         display: none !important;
     }
-    
+
     .btn-admin-footer {
         position: absolute;
         right: 24px;
@@ -1435,25 +1550,65 @@ body.bg-light .whatsapp-float {
     }
 }
 
-/* ===== MEJORA TÁCTIL PARA MÓVIL ===== */
+/* ===== AJUSTE PARA BOTONES HERO EN MÓVIL ===== */
 @media (max-width: 768px) {
-    /* Ocultamos las flechas del modal y del visor */
-    .modal-nav, 
-    .image-viewer-nav {
+    .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto 25px;
+        padding: 0 15px;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 18px;
+        border-radius: 15px;
+        font-size: 1.1rem;
+    }
+    
+    .hero-buttons .btn-outline {
+        border-color: var(--black);
+        color: var(--black);
+        background-color: transparent;
+    }
+    
+    .hero-buttons .btn-outline:hover {
+        background-color: var(--black);
+        color: var(--white);
+    }
+
+    /* PIRÁMIDE DE ESTADÍSTICAS */
+    .hero-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .stat-card:first-child {
+        grid-column: 1 / span 2;
+        min-height: 100px;
+    }
+}
+
+/* ===== MODO TÁCTIL PARA EL MODAL (SWIPE) ===== */
+@media (max-width: 768px) {
+    .modal-nav {
         display: none !important;
     }
 
-    /* Activamos el scroll táctil suave en el área de la imagen */
     .modal-image-area {
         overflow-x: auto !important;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         display: flex;
         align-items: center;
-        justify-content: flex-start;
-        scroll-behavior: smooth;
-        gap: 0;
-        padding: 0;
     }
 
     .modal-img {
@@ -1461,76 +1616,69 @@ body.bg-light .whatsapp-float {
         flex-shrink: 0;
         width: 100%;
         height: auto;
-        max-height: 100%;
-        object-fit: contain;
-        pointer-events: none;
-    }
-    
-    /* Mejora para el visor de imagen completa */
-    .image-viewer-container {
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-    }
-    
-    .viewer-img {
-        scroll-snap-align: center;
-        flex-shrink: 0;
-        width: 100%;
-        height: auto;
-        max-height: 100vh;
         object-fit: contain;
     }
     
-    /* Ocultar scrollbar pero mantener funcionalidad */
-    .modal-image-area::-webkit-scrollbar,
-    .image-viewer-container::-webkit-scrollbar {
+    .modal-image-area::-webkit-scrollbar {
         display: none;
-    }
-    
-    .modal-image-area,
-    .image-viewer-container {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
     }
 }
 
 /* ===== MODO MÓVIL ===== */
 @media (max-width: 768px) {
-    .back-link span {
-        display: inline !important;
+    .header {
+        padding: 8px 0;
     }
-
+    
     .header-container {
         display: grid;
         grid-template-columns: auto 1fr auto;
         align-items: center;
-        padding: 10px 15px;
+        padding: 0 15px;
         gap: 10px;
+        height: 50px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        height: 100%;
     }
 
     .back-link {
         grid-column: 1;
         grid-row: 1;
         z-index: 1002;
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+
+    .back-link span {
+        display: inline !important;
     }
 
     .menu-toggle {
         display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
         grid-column: 3;
         grid-row: 1;
         margin-left: auto;
         z-index: 1002;
     }
 
+    .header-actions {
+        display: none;
+    }
+
     .search-container {
         grid-column: 1 / -1;
         grid-row: 2;
-        margin: 20px auto 15px auto;
+        margin: 10px auto;
         width: 90%;
         max-width: 100%;
     }
@@ -1592,55 +1740,6 @@ body.bg-light .whatsapp-float {
         gap: 20px;
     }
     
-    .hero-buttons {
-        width: 100%;
-        max-width: 500px;
-        margin: 0 auto 20px;
-        padding: 0 15px;
-    }
-    
-    .btn-outline { 
-        display: none !important; 
-    }
-    
-    .btn-primary {
-        width: 100%;
-        height: 55px;
-        justify-content: center;
-        padding: 0 20px;
-        border-radius: 15px;
-        font-size: 1rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        margin: 0 auto;
-    }
-
-    .hero-stats {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        width: 100%;
-        max-width: 500px;
-        margin: 10px auto 0;
-        padding: 0 15px;
-    }
-
-    .hero-stats .stat-card:first-child {
-        grid-column: 1 / span 2;
-        min-height: 120px;
-    }
-
-    .stat-card { 
-        min-height: 140px; 
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 20px !important;
-    }
-
-    .hero { padding: 120px 0 60px; }
     .hero-title { font-size: 2.5rem; }
     .stat-number { font-size: 2.2rem; }
     .stat-label { font-size: 0.85rem; }
@@ -1719,9 +1818,47 @@ body.bg-light .whatsapp-float {
     .stat-number { font-size: 2rem; }
     .hero-stats { gap: 10px; }
     
-    .btn-primary {
-        padding: 0 15px;
-        font-size: 0.95rem;
-        height: 50px;
+    .hero-buttons .btn {
+        padding: 14px;
+        font-size: 1rem;
+    }
+}
+
+/* ===== OCULTAR BOTONES DUPLICADOS SOLO EN TIENDA (PC) ===== */
+@media (min-width: 769px) {
+    /* Esto SOLO afecta al menú de la tienda, NO al de la página principal */
+    .tienda-menu {
+        display: none !important;
+    }
+}
+
+/* ===== MEJORA TÁCTIL PARA TABLET (SWIPE) ===== */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .modal-nav,
+    .image-viewer-nav {
+        display: none !important;
+    }
+
+    .modal-image-area {
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        display: flex !important;
+        justify-content: flex-start !important;
+    }
+
+    .modal-img {
+        scroll-snap-align: center;
+        flex-shrink: 0;
+        width: 100% !important;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .modal-close,
+    .image-viewer-close {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 1.2rem !important;
     }
 }

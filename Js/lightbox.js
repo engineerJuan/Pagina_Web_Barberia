@@ -95,8 +95,10 @@ const Lightbox = {
     
     // ===== ACTUALIZAR INDICADOR DEL MODAL =====
     actualizarIndicadorModal: function() {
-        // Si tienes algún indicador en el modal, actualízalo aquí
-        // Por ejemplo, podrías agregar puntos indicadores
+        const counter = document.getElementById('modalImageCounter');
+        if (counter && this.currentImages) {
+            counter.textContent = `${this.currentIndex + 1} / ${this.currentImages.length}`;
+        }
     },
     
     // ===== ABRIR MODAL DE PRODUCTO =====

@@ -27,7 +27,7 @@ function cargarProductos() {
                 precioFormato: "$580",
                 img: "img/productos/pro2.jpg",
                 imagenes: ["img/productos/pro2.jpg", "img/productos/pro3.jpg", "img/productos/pro1.jpg"],
-                stock: 3,
+                stock: 5,
                 stockPorTalla: null,
                 caracteristicas: [
                     "Incluye 4 productos",
@@ -107,6 +107,22 @@ function cargarProductos() {
                     "Mezcla de algodón y poliéster",
                     "Estampado en vinil textil",
                     "Unisex"
+                ]
+            },
+            {
+                id: 6,
+                nombre: "Perfume Black Edition",
+                categoria: "perfumes",
+                precio: "$850",
+                precioFormato: "$850",
+                img: "img/Perfumes/per1.jpg",
+                imagenes: ["img/Perfumes/per1.jpg"],
+                stock: 5,
+                stockPorTalla: null,
+                caracteristicas: [
+                    "Notas amaderadas",
+                    "Duración de 8 horas",
+                    "Presentación de 100ml"
                 ]
             }
         ];
@@ -189,6 +205,14 @@ window.renderProductos = function(filtro = "todo") {
         return;
     }
     
+    // Función para obtener el texto de categoría
+    const getCategoriaTexto = (categoria) => {
+        if (categoria === 'ropa') return 'ROPA';
+        if (categoria === 'perfumes') return 'PERFUMES';
+        if (categoria === 'grooming') return 'CUIDADO PERSONAL';
+        return categoria.toUpperCase();
+    };
+    
     grid.innerHTML = filtrados.map(p => `
         <div class="product-card" onclick="openModal(${p.id})" style="cursor: pointer;">
             <div class="product-image-box">
@@ -196,7 +220,7 @@ window.renderProductos = function(filtro = "todo") {
             </div>
             <div class="product-details">
                 <h3 class="product-title">${p.nombre}</h3>
-                <span class="product-category-label">${p.categoria === 'grooming' ? 'CUIDADO PERSONAL' : 'ROPA'}</span>
+                <span class="product-category-label">${getCategoriaTexto(p.categoria)}</span>
                 <p class="product-price">${p.precio}</p>
             </div>
         </div>
@@ -239,6 +263,13 @@ window.buscarProductos = function() {
         return;
     }
     
+    const getCategoriaTexto = (categoria) => {
+        if (categoria === 'ropa') return 'ROPA';
+        if (categoria === 'perfumes') return 'PERFUMES';
+        if (categoria === 'grooming') return 'CUIDADO PERSONAL';
+        return categoria.toUpperCase();
+    };
+    
     grid.innerHTML = filtrados.map(p => `
         <div class="product-card" onclick="openModal(${p.id})" style="cursor: pointer;">
             <div class="product-image-box">
@@ -246,7 +277,7 @@ window.buscarProductos = function() {
             </div>
             <div class="product-details">
                 <h3 class="product-title">${p.nombre}</h3>
-                <span class="product-category-label">${p.categoria === 'grooming' ? 'CUIDADO PERSONAL' : 'ROPA'}</span>
+                <span class="product-category-label">${getCategoriaTexto(p.categoria)}</span>
                 <p class="product-price">${p.precio}</p>
             </div>
         </div>
