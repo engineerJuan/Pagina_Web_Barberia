@@ -1014,9 +1014,11 @@ body.bg-light .whatsapp-float {
     position: relative;
     height: 100%;
     width: 100%;
-    overflow: hidden;
+    overflow-x: auto;
     scroll-snap-type: x mandatory;
-    cursor: grab;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .modal-image-area::-webkit-scrollbar {
@@ -1024,15 +1026,16 @@ body.bg-light .whatsapp-float {
 }
 
 .modal-img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    cursor: pointer;
-    transition: transform 0.3s ease;
     scroll-snap-align: center;
     flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: auto !important;
 }
 
 .modal-img:hover {
@@ -1355,15 +1358,15 @@ body.bg-light .whatsapp-float {
 }
 
 .image-viewer-container {
-    position: relative;
-    width: 95vw;
-    height: 95vh;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    width: 100%;
+    height: 100vh;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    display: flex;
+    align-items: center;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .image-viewer-container::-webkit-scrollbar {
@@ -1374,9 +1377,9 @@ body.bg-light .whatsapp-float {
     scroll-snap-align: center;
     flex-shrink: 0;
     width: 100%;
-    height: auto;
-    max-height: 95vh;
+    height: 100vh;
     object-fit: contain;
+    cursor: pointer;
 }
 
 .image-viewer-nav {
@@ -1408,16 +1411,20 @@ body.bg-light .whatsapp-float {
 }
 
 .image-viewer-counter {
-    position: absolute;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 1rem;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 8px 20px;
-    border-radius: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: fixed !important;
+    bottom: 30px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: rgba(0, 0, 0, 0.9) !important;
+    color: white !important;
+    padding: 10px 22px !important;
+    border-radius: 40px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    z-index: 3100 !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+    pointer-events: none !important;
 }
 
 .btn-admin-footer {
@@ -1598,29 +1605,10 @@ body.bg-light .whatsapp-float {
 }
 
 /* ===== MODO TÁCTIL PARA EL MODAL (SWIPE) ===== */
-@media (max-width: 768px) {
-    .modal-nav {
+@media (max-width: 1024px) {
+    .modal-nav,
+    .image-viewer-nav {
         display: none !important;
-    }
-
-    .modal-image-area {
-        overflow-x: auto !important;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        display: flex;
-        align-items: center;
-    }
-
-    .modal-img {
-        scroll-snap-align: center;
-        flex-shrink: 0;
-        width: 100%;
-        height: auto;
-        object-fit: contain;
-    }
-    
-    .modal-image-area::-webkit-scrollbar {
-        display: none;
     }
 }
 
@@ -1826,39 +1814,7 @@ body.bg-light .whatsapp-float {
 
 /* ===== OCULTAR BOTONES DUPLICADOS SOLO EN TIENDA (PC) ===== */
 @media (min-width: 769px) {
-    /* Esto SOLO afecta al menú de la tienda, NO al de la página principal */
     .tienda-menu {
         display: none !important;
-    }
-}
-
-/* ===== MEJORA TÁCTIL PARA TABLET (SWIPE) ===== */
-@media (max-width: 1024px) and (min-width: 769px) {
-    .modal-nav,
-    .image-viewer-nav {
-        display: none !important;
-    }
-
-    .modal-image-area {
-        overflow-x: auto !important;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        display: flex !important;
-        justify-content: flex-start !important;
-    }
-
-    .modal-img {
-        scroll-snap-align: center;
-        flex-shrink: 0;
-        width: 100% !important;
-        height: 100%;
-        object-fit: contain;
-    }
-
-    .modal-close,
-    .image-viewer-close {
-        width: 40px !important;
-        height: 40px !important;
-        font-size: 1.2rem !important;
     }
 }

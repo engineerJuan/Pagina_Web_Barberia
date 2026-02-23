@@ -168,7 +168,6 @@ window.openModal = function(id) {
         console.log('Imágenes disponibles:', producto.imagenes ? producto.imagenes.length : 1);
         
         if (window.Lightbox) {
-            Lightbox.currentIndex = 0;
             Lightbox.abrirModal(producto, 0);
         } else {
             console.error('Lightbox no está definido');
@@ -188,40 +187,52 @@ window.renderProductos = function(filtro = "todo") {
     
     console.log('Renderizando productos con filtro:', filtro);
     
-    // Intentar leer del admin, si no, usar el array base
+    // Leer directamente del localStorage para datos siempre actualizados
     let listado = [];
     try {
         const stored = localStorage.getItem('barberInventory');
-        listado = stored ? JSON.parse(stored) : productos;
+        // Si hay datos en localStorage y no está vacío, úsalos
+        if (stored && JSON.parse(stored).length > 0) {
+            listado = JSON.parse(stored);
+        } else {
+            // Si no hay nada en localStorage, usa el array por defecto
+            listado = productos;
+            localStorage.setItem('barberInventory', JSON.stringify(listado));
+        }
     } catch(e) {
         console.error('Error al leer localStorage:', e);
         listado = productos;
     }
     
-    let filtrados = filtro === "todo" ? listado : listado.filter(p => p.categoria === filtro);
+    // Filtrar por categoría
+    let filtrados = filtro === "todo" 
+        ? listado 
+        : listado.filter(p => p.categoria && p.categoria.toLowerCase() === filtro.toLowerCase());
     
     if (filtrados.length === 0) {
-        grid.innerHTML = '<p class="no-products">No se encontraron productos</p>';
+        grid.innerHTML = '<p class="no-products">No se encontraron productos en esta categoría.</p>';
         return;
     }
     
     // Función para obtener el texto de categoría
     const getCategoriaTexto = (categoria) => {
-        if (categoria === 'ropa') return 'ROPA';
-        if (categoria === 'perfumes') return 'PERFUMES';
-        if (categoria === 'grooming') return 'CUIDADO PERSONAL';
+        if (!categoria) return 'PRODUCTO';
+        const cat = categoria.toLowerCase();
+        if (cat === 'ropa') return 'ROPA';
+        if (cat === 'perfumes') return 'PERFUMES';
+        if (cat === 'grooming') return 'CUIDADO PERSONAL';
         return categoria.toUpperCase();
     };
     
     grid.innerHTML = filtrados.map(p => `
         <div class="product-card" onclick="openModal(${p.id})" style="cursor: pointer;">
             <div class="product-image-box">
-                <img src="${p.img}" alt="${p.nombre}" onerror="this.src='img/placeholder.jpg'">
+                <img src="${p.img}" alt="${p.nombre || 'Producto'}" loading="lazy" onerror="this.src='img/placeholder.jpg'">
             </div>
             <div class="product-details">
-                <h3 class="product-title">${p.nombre}</h3>
+                <h3 class="product-title">${p.nombre || 'Producto sin nombre'}</h3>
                 <span class="product-category-label">${getCategoriaTexto(p.categoria)}</span>
-                <p class="product-price">${p.precio}</p>
+                <p class="product-price">${p.precio || '$???'}</p>
             </div>
         </div>
     `).join('');
@@ -264,16 +275,18 @@ window.buscarProductos = function() {
     }
     
     const getCategoriaTexto = (categoria) => {
-        if (categoria === 'ropa') return 'ROPA';
-        if (categoria === 'perfumes') return 'PERFUMES';
-        if (categoria === 'grooming') return 'CUIDADO PERSONAL';
+        if (!categoria) return 'PRODUCTO';
+        const cat = categoria.toLowerCase();
+        if (cat === 'ropa') return 'ROPA';
+        if (cat === 'perfumes') return 'PERFUMES';
+        if (cat === 'grooming') return 'CUIDADO PERSONAL';
         return categoria.toUpperCase();
     };
     
     grid.innerHTML = filtrados.map(p => `
         <div class="product-card" onclick="openModal(${p.id})" style="cursor: pointer;">
             <div class="product-image-box">
-                <img src="${p.img}" alt="${p.nombre}" onerror="this.src='img/placeholder.jpg'">
+                <img src="${p.img}" alt="${p.nombre}" loading="lazy" onerror="this.src='img/placeholder.jpg'">
             </div>
             <div class="product-details">
                 <h3 class="product-title">${p.nombre}</h3>
