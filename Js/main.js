@@ -1,26 +1,21 @@
-// ===== NÚMERO DE WHATSAPP =====
 const WHATSAPP_NUMBER = "527299635417";
 
-// ===== INICIALIZACIÓN PRINCIPAL =====
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Main.js cargado - inicializando...');
-    
-    // Inicializar funciones generales para TODAS las páginas
+   
     initMobileMenu();
     initSmoothScroll();
     initWhatsAppButton();
     initServiciosContacto();
-    
-    // Verificar si estamos en la tienda
+    initScrollAnimation();
+   
     if (document.getElementById('productGrid')) {
         console.log('Página de tienda detectada - cargando productos');
-        
-        // Inicializar funciones específicas de la tienda
+       
         initFilters();
         initSearch();
         initModalClose();
-        
-        // Renderizar productos si la función existe
+       
         if (typeof window.renderProductos === 'function') {
             window.renderProductos('todo');
         } else {
@@ -31,36 +26,52 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// ===== MENÚ MÓVIL =====
+function initScrollAnimation() {
+    const sections = document.querySelectorAll('section');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+}
+
 function initMobileMenu() {
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
-    
+   
     if (menuToggle && navMenu) {
         menuToggle.addEventListener('click', function() {
             navMenu.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
         });
-        
-        // Cerrar al hacer clic en un enlace
+       
         navMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
             });
         });
-        
-        // Cerrar al hacer clic fuera
+       
         document.addEventListener('click', function(event) {
-            if (!navMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+            if (!navMenu.contains(event.target) && !menuToggle.contains(event.target) && navMenu.classList.contains('active')) {
                 navMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
             }
         });
     }
 }
 
-// ===== FILTROS DE PRODUCTOS =====
 function initFilters() {
     const filterPills = document.querySelectorAll('.pill');
-    
+   
     if (filterPills.length > 0) {
         filterPills.forEach(pill => {
             pill.addEventListener('click', handleFilterClick);
@@ -70,25 +81,22 @@ function initFilters() {
 
 function handleFilterClick(event) {
     const pill = event.currentTarget;
-    
-    // Remover clase active de todos
+   
     document.querySelectorAll('.pill').forEach(p => {
         p.classList.remove('active');
     });
-    
-    // Agregar clase active al clickeado
+   
     pill.classList.add('active');
-    
+   
     const filter = pill.dataset.filter;
     if (typeof window.renderProductos === 'function') {
         window.renderProductos(filter);
     }
 }
 
-// ===== BÚSQUEDA EN TIEMPO REAL =====
 function initSearch() {
     const searchInput = document.getElementById('searchInput');
-    
+   
     if (searchInput) {
         searchInput.addEventListener('input', handleSearchInput);
     }
@@ -103,11 +111,10 @@ function handleSearchInput(event) {
     }, 300);
 }
 
-// ===== CIERRE DE MODAL =====
 function initModalClose() {
     const modal = document.getElementById('productModal');
     const closeBtn = document.getElementById('closeModalBtn');
-    
+   
     if (modal) {
         if (closeBtn) {
             closeBtn.addEventListener('click', function(e) {
@@ -119,7 +126,7 @@ function initModalClose() {
                 }
             });
         }
-        
+       
         modal.addEventListener('click', function(e) {
             if (e.target === this || e.target.classList.contains('modal-overlay')) {
                 if (typeof Lightbox !== 'undefined' && Lightbox) {
@@ -130,11 +137,10 @@ function initModalClose() {
             }
         });
     }
-    
-    // Cerrar visor de imagen
+   
     const viewer = document.getElementById('imageViewer');
     const viewerClose = document.getElementById('imageViewerClose');
-    
+   
     if (viewer && viewerClose) {
         viewerClose.addEventListener('click', function() {
             if (typeof Lightbox !== 'undefined' && Lightbox) {
@@ -143,7 +149,7 @@ function initModalClose() {
                 if (viewer) viewer.classList.remove('active');
             }
         });
-        
+       
         viewer.addEventListener('click', function(e) {
             if (e.target === this) {
                 if (typeof Lightbox !== 'undefined' && Lightbox) {
@@ -156,7 +162,6 @@ function initModalClose() {
     }
 }
 
-// ===== SCROLL SUAVE =====
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -172,10 +177,9 @@ function initSmoothScroll() {
     });
 }
 
-// ===== ENLACES DE SERVICIOS =====
 function initServiciosContacto() {
     const servicioLinks = document.querySelectorAll('.servicio-link');
-    
+   
     servicioLinks.forEach(link => {
         link.addEventListener('click', handleServicioClick);
     });
@@ -183,22 +187,21 @@ function initServiciosContacto() {
 
 function handleServicioClick(e) {
     e.preventDefault();
-    
+   
     const serviciosSection = document.getElementById('servicios');
-    
+   
     if (serviciosSection) {
         serviciosSection.scrollIntoView({ behavior: 'smooth' });
-        
+       
         serviciosSection.style.transition = 'background-color 0.5s ease';
         serviciosSection.style.backgroundColor = '#F5F5F5';
-        
+       
         setTimeout(() => {
             serviciosSection.style.backgroundColor = 'transparent';
         }, 500);
     }
 }
 
-// ===== BOTÓN WHATSAPP =====
 function initWhatsAppButton() {
     const isShop = document.body.classList.contains('bg-light');
     const waFloat = document.querySelector('.whatsapp-float');
@@ -209,21 +212,19 @@ function initWhatsAppButton() {
     }
 }
 
-// ===== FUNCIÓN DE RESPALDO PARA CERRAR MODAL =====
 window.closeModal = function() {
     const modal = document.getElementById('productModal');
     if (modal) {
         modal.classList.remove('active');
         document.body.style.overflow = 'auto';
     }
-    
+   
     const viewer = document.getElementById('imageViewer');
     if (viewer) {
         viewer.classList.remove('active');
     }
 };
 
-// ===== NAVEGACIÓN ENTRE PÁGINAS =====
 window.irAInicio = function() {
     window.location.href = 'index.html';
 };
@@ -236,7 +237,6 @@ window.irAAdmin = function() {
     window.location.href = 'admin-panel.html';
 };
 
-// ===== EXPORTAR FUNCIONES PARA USO GLOBAL =====
 window.initMobileMenu = initMobileMenu;
 window.initSmoothScroll = initSmoothScroll;
 window.initWhatsAppButton = initWhatsAppButton;
@@ -244,3 +244,4 @@ window.initServiciosContacto = initServiciosContacto;
 window.initFilters = initFilters;
 window.initSearch = initSearch;
 window.initModalClose = initModalClose;
+window.initScrollAnimation = initScrollAnimation;

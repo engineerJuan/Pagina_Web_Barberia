@@ -1,23 +1,28 @@
-// ===== PRODUCTOS - CARGA DESDE LOCALSTORAGE PRIMERO =====
+// ===== VARIABLE GLOBAL Y CARGA INICIAL =====
 let productos = [];
 
-// ===== CARGAR PRODUCTOS DESDE LOCALSTORAGE =====
 function cargarProductos() {
     const stored = localStorage.getItem('barberInventory');
     
-    if (stored && JSON.parse(stored).length > 0) {
-        productos = JSON.parse(stored);
-        console.log('Productos cargados desde localStorage:', productos.length);
-        
-        // Verificar que los productos de ropa tengan stockPorTalla
-        productos.forEach(p => {
-            if (p.categoria === 'ropa' && !p.stockPorTalla) {
-                console.warn('Producto de ropa sin stockPorTalla:', p.nombre);
-                p.stockPorTalla = { S: 0, M: 0, L: 0, XL: 0 };
-            }
-        });
-    } else {
-        // Productos por defecto
+    if (stored) {
+        try {
+            productos = JSON.parse(stored);
+            console.log('Productos cargados desde localStorage:', productos.length);
+            
+            productos.forEach(p => {
+                if (!p.img) p.img = 'img/placeholder.jpg';
+                if (!p.imagenes || p.imagenes.length === 0) {
+                    p.imagenes = [p.img];
+                }
+                p.imagenes = [...new Set(p.imagenes)];
+            });
+        } catch(e) {
+            console.error('Error al parsear localStorage:', e);
+            productos = [];
+        }
+    } 
+    
+    if (!productos || productos.length === 0) {
         productos = [
             {
                 id: 1,
@@ -29,11 +34,7 @@ function cargarProductos() {
                 imagenes: ["img/productos/pro2.jpg", "img/productos/pro3.jpg", "img/productos/pro1.jpg"],
                 stock: 5,
                 stockPorTalla: null,
-                caracteristicas: [
-                    "Incluye 4 productos",
-                    "Cera, shampoo, acondicionador y aceite",
-                    "Maletín de regalo"
-                ]
+                caracteristicas: ["Incluye 4 productos", "Cera, shampoo, acondicionador y aceite", "Maletín de regalo"]
             },
             {
                 id: 2,
@@ -45,11 +46,7 @@ function cargarProductos() {
                 imagenes: ["img/productos/pro1.jpg", "img/productos/pro2.jpg", "img/productos/pro3.jpg"],
                 stock: 8,
                 stockPorTalla: null,
-                caracteristicas: [
-                    "Fijación fuerte (8/10)",
-                    "Acabado mate",
-                    "Resiste la humedad"
-                ]
+                caracteristicas: ["Fijación fuerte (8/10)", "Acabado mate", "Resiste la humedad"]
             },
             {
                 id: 3,
@@ -61,11 +58,7 @@ function cargarProductos() {
                 imagenes: ["img/productos/pro3.jpg", "img/productos/pro1.jpg", "img/productos/pro2.jpg"],
                 stock: 12,
                 stockPorTalla: null,
-                caracteristicas: [
-                    "Fijación extrema (10/10)",
-                    "Brillo moderado",
-                    "Secado rápido"
-                ]
+                caracteristicas: ["Fijación extrema (10/10)", "Brillo moderado", "Secado rápido"]
             },
             {
                 id: 4,
@@ -75,18 +68,9 @@ function cargarProductos() {
                 precioFormato: "$450",
                 img: "img/ropa/img1.jpg",
                 imagenes: ["img/ropa/img1.jpg", "img/ropa/img2.jpg", "img/ropa/img3.jpg"],
-                stockPorTalla: {
-                    S: 2,
-                    M: 1,
-                    L: 0,
-                    XL: 1
-                },
+                stockPorTalla: { S: 2, M: 1, L: 0, XL: 1 },
                 stock: 4,
-                caracteristicas: [
-                    "Algodón premium 320gr",
-                    "Estampado serigrafiado",
-                    "Capucha ajustable"
-                ]
+                caracteristicas: ["Algodón premium 320gr", "Estampado serigrafiado", "Capucha ajustable"]
             },
             {
                 id: 5,
@@ -96,18 +80,9 @@ function cargarProductos() {
                 precioFormato: "$450",
                 img: "img/ropa/img2.jpg",
                 imagenes: ["img/ropa/img2.jpg", "img/ropa/img3.jpg", "img/ropa/img1.jpg"],
-                stockPorTalla: {
-                    S: 0,
-                    M: 1,
-                    L: 1,
-                    XL: 0
-                },
+                stockPorTalla: { S: 0, M: 1, L: 1, XL: 0 },
                 stock: 2,
-                caracteristicas: [
-                    "Mezcla de algodón y poliéster",
-                    "Estampado en vinil textil",
-                    "Unisex"
-                ]
+                caracteristicas: ["Mezcla de algodón y poliéster", "Estampado en vinil textil", "Unisex"]
             },
             {
                 id: 6,
@@ -119,14 +94,9 @@ function cargarProductos() {
                 imagenes: ["img/Perfumes/per1.jpg"],
                 stock: 5,
                 stockPorTalla: null,
-                caracteristicas: [
-                    "Notas amaderadas",
-                    "Duración de 8 horas",
-                    "Presentación de 100ml"
-                ]
+                caracteristicas: ["Notas amaderadas", "Duración de 8 horas", "Presentación de 100ml"]
             }
         ];
-        
         localStorage.setItem('barberInventory', JSON.stringify(productos));
         console.log('Productos por defecto guardados');
     }
@@ -134,10 +104,8 @@ function cargarProductos() {
     return productos;
 }
 
-// Cargar productos al iniciar
 productos = cargarProductos();
 
-// ===== ESCUCHAR ACTUALIZACIONES DEL ADMIN =====
 window.addEventListener('inventoryUpdated', function(e) {
     productos = e.detail;
     if (document.getElementById('productGrid') && typeof window.renderProductos === 'function') {
@@ -145,85 +113,85 @@ window.addEventListener('inventoryUpdated', function(e) {
     }
 });
 
-// ===== FUNCIÓN PARA ABRIR MODAL =====
 window.openModal = function(id) {
     console.log('Abriendo modal para producto ID:', id);
     
-    // Buscar en localStorage primero
-    let listado = [];
-    try {
-        const stored = localStorage.getItem('barberInventory');
-        listado = stored ? JSON.parse(stored) : productos;
-    } catch(e) {
-        console.error('Error al leer localStorage:', e);
-        listado = productos;
-    }
-    
-    const producto = listado.find(p => p.id == id);
-    
-    if (producto) {
-        console.log('Producto encontrado:', producto.nombre);
-        console.log('Categoría:', producto.categoria);
-        console.log('Stock por talla:', producto.stockPorTalla);
-        console.log('Imágenes disponibles:', producto.imagenes ? producto.imagenes.length : 1);
-        
+    const modalAbierto = document.getElementById('productModal');
+    if (modalAbierto && modalAbierto.classList.contains('active')) {
         if (window.Lightbox) {
-            Lightbox.abrirModal(producto, 0);
-        } else {
-            console.error('Lightbox no está definido');
+            Lightbox.cerrarModal();
         }
-    } else {
-        console.error('Producto no encontrado con ID:', id);
     }
+    
+    setTimeout(() => {
+        let listado = [];
+        try {
+            const stored = localStorage.getItem('barberInventory');
+            listado = stored ? JSON.parse(stored) : productos;
+        } catch(e) {
+            console.error('Error al leer localStorage:', e);
+            listado = productos;
+        }
+        
+        const producto = listado.find(p => p.id == id);
+        
+        if (producto) {
+            const productoCopia = JSON.parse(JSON.stringify(producto));
+            
+            if (window.Lightbox) {
+                Lightbox.abrirModal(productoCopia, 0);
+            } else {
+                console.error('Lightbox no está definido');
+            }
+        } else {
+            console.error('Producto no encontrado con ID:', id);
+        }
+    }, 50);
 };
 
-// ===== FUNCIÓN PARA RENDERIZAR PRODUCTOS =====
 window.renderProductos = function(filtro = "todo") {
     const grid = document.getElementById('productGrid');
     if (!grid) {
-        console.log('No hay grid de productos - probablemente estamos en la página principal');
+        console.log('No hay grid de productos');
         return;
     }
-    
-    console.log('Renderizando productos con filtro:', filtro);
-    
-    // Leer directamente del localStorage para datos siempre actualizados
-    let listado = [];
+
+    let listadoActual = [];
     try {
         const stored = localStorage.getItem('barberInventory');
-        // Si hay datos en localStorage y no está vacío, úsalos
-        if (stored && JSON.parse(stored).length > 0) {
-            listado = JSON.parse(stored);
-        } else {
-            // Si no hay nada en localStorage, usa el array por defecto
-            listado = productos;
-            localStorage.setItem('barberInventory', JSON.stringify(listado));
-        }
+        listadoActual = stored ? JSON.parse(stored) : productos;
+        
+        listadoActual.forEach(p => {
+            if (!p.img) p.img = 'img/placeholder.jpg';
+            if (!p.imagenes || p.imagenes.length === 0) {
+                p.imagenes = [p.img];
+            }
+        });
     } catch(e) {
         console.error('Error al leer localStorage:', e);
-        listado = productos;
+        listadoActual = productos;
     }
-    
-    // Filtrar por categoría
+
+    grid.innerHTML = '';
+
     let filtrados = filtro === "todo" 
-        ? listado 
-        : listado.filter(p => p.categoria && p.categoria.toLowerCase() === filtro.toLowerCase());
-    
+        ? listadoActual 
+        : listadoActual.filter(p => p.categoria && p.categoria.toLowerCase() === filtro.toLowerCase());
+
     if (filtrados.length === 0) {
         grid.innerHTML = '<p class="no-products">No se encontraron productos en esta categoría.</p>';
         return;
     }
-    
-    // Función para obtener el texto de categoría
+
     const getCategoriaTexto = (categoria) => {
         if (!categoria) return 'PRODUCTO';
         const cat = categoria.toLowerCase();
         if (cat === 'ropa') return 'ROPA';
         if (cat === 'perfumes') return 'PERFUMES';
-        if (cat === 'grooming') return 'CUIDADO PERSONAL';
+        if (cat === 'grooming') return 'PRODUCTOS';
         return categoria.toUpperCase();
     };
-    
+
     grid.innerHTML = filtrados.map(p => `
         <div class="product-card" onclick="openModal(${p.id})" style="cursor: pointer;">
             <div class="product-image-box">
@@ -240,17 +208,14 @@ window.renderProductos = function(filtro = "todo") {
     console.log('Renderizado completado, productos:', filtrados.length);
 };
 
-// ===== FUNCIÓN PARA BUSCAR PRODUCTOS =====
 window.buscarProductos = function() {
     const input = document.getElementById('searchInput');
     if (!input) return;
     
     const termino = input.value.toLowerCase().trim();
     const grid = document.getElementById('productGrid');
-    
     if (!grid) return;
     
-    // Obtener productos actualizados
     let listado = [];
     try {
         const stored = localStorage.getItem('barberInventory');
@@ -264,9 +229,9 @@ window.buscarProductos = function() {
         return;
     }
     
-    const filtrados = listado.filter(p => 
+    const filtrados = listado.filter(p =>
         p.nombre.toLowerCase().includes(termino) ||
-        p.categoria.toLowerCase().includes(termino)
+        (p.categoria && p.categoria.toLowerCase().includes(termino))
     );
     
     if (filtrados.length === 0) {
@@ -279,7 +244,7 @@ window.buscarProductos = function() {
         const cat = categoria.toLowerCase();
         if (cat === 'ropa') return 'ROPA';
         if (cat === 'perfumes') return 'PERFUMES';
-        if (cat === 'grooming') return 'CUIDADO PERSONAL';
+        if (cat === 'grooming') return 'PRODUCTOS';
         return categoria.toUpperCase();
     };
     
@@ -297,7 +262,6 @@ window.buscarProductos = function() {
     `).join('');
 };
 
-// ===== INICIALIZAR AL CARGAR LA PÁGINA =====
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('productGrid')) {
         window.renderProductos('todo');

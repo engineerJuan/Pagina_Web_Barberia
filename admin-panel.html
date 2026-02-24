@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin | Barber & Drinks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <a href="index.html" class="back-link" title="Volver al inicio">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Volver al inicio</span>
+                </a>
+                <div class="logo admin-logo">
+                    <span class="logo-bar">BARBER</span><span class="logo-drinks">ADMIN</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu" id="navMenu" style="margin: 0 auto;">
+                <ul class="nav-list">
+                    <li><a href="index.html">INICIO</a></li>
+                    <li><a href="tienda.html">TIENDA</a></li>
+                    <li><a href="admin-panel.html" class="active">PANEL</a></li>
+                </ul>
+            </nav>
+
+            <div class="admin-header-right" id="adminHeaderRight">
+                <span class="admin-user-badge" id="adminUserBadge">
+                    <i class="fas fa-user-circle"></i> <span id="userName">Admin</span>
+                </span>
+                <button onclick="adminController.logout()" class="btn-danger" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </button>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="admin-panel container">
+        <div class="admin-header">
+            <h1 class="section-title">Panel de <span class="highlight">Control</span></h1>
+            <div class="admin-stats">
+                <span class="stat-badge" id="totalProductos">
+                    <i class="fas fa-box"></i> 0 Productos
+                </span>
+                <span class="stat-badge" id="stockTotal">
+                    <i class="fas fa-cubes"></i> 0 Stock Total
+                </span>
+            </div>
+        </div>
+
+        <div class="info-card-premium admin-form-container">
+            <h3 class="admin-form-title">
+                <i class="fas fa-edit"></i> Gestión de Productos
+            </h3>
+            
+            <form id="adminForm">
+                <input type="hidden" id="productId">
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Nombre del Producto</label>
+                        <input type="text" id="pNombre" placeholder="Ej. Sudera Dino Dreams" required class="admin-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Precio</label>
+                        <input type="text" id="pPrecio" placeholder="$450" required class="admin-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Categoría</label>
+                        <select id="pCategoria" class="admin-select" onchange="adminController.cambiarCategoria()">
+                            <option value="ropa">👕 Ropa</option>
+                            <option value="grooming">🧴 Productos</option>
+                            <option value="perfumes">✨ Perfumes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="stockFieldsContainer"></div>
+
+                <div class="form-group">
+                    <label class="form-label">Características (separadas por coma)</label>
+                    <textarea id="pDesc" placeholder="Algodón premium, Estampado serigrafiado, Capucha ajustable" class="admin-textarea"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Imágenes del Producto</label>
+                    <input type="file" id="pFoto" accept="image/*" multiple class="admin-file-input">
+                </div>
+
+                <div id="previewGallery" class="preview-gallery">
+                    <img src="img/placeholder.jpg" class="preview-image" alt="Vista previa">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="btnGuardar">
+                        <i class="fas fa-save"></i> Publicar Producto
+                    </button>
+                    <button type="button" onclick="adminController.limpiarFormulario()" class="btn btn-outline">
+                        <i class="fas fa-eraser"></i> Limpiar
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="inventory-header">
+            <h3><i class="fas fa-boxes"></i> Inventario Actual</h3>
+        </div>
+        
+        <div id="adminGrid" class="product-grid"></div>
+    </main>
+
+    <footer class="footer-final">
+        <div class="container">
+            <p>© 2026 Barber & Drinks Admin Panel - Gestión de Inventario</p>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Actualizar nombre de usuario desde sessionStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const userName = sessionStorage.getItem('adminUser') || 'Admin';
+            document.getElementById('userName').textContent = userName;
+        });
+    </script>
+</body>
+</html>

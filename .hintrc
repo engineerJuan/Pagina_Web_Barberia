@@ -25,17 +25,7 @@
         ]
       }
     ],
-    "compat-api/css": [
-      "default",
-      {
-        "ignore": [
-          "backdrop-filter",
-          "-webkit-overflow-scrolling",
-          "scrollbar-width",
-          "scrollbar-width: none"
-        ]
-      }
-    ],
+    "compat-api/css": "off",
     "disown-opener": "off",
     "meta-viewport": "off",
     "axe/forms": [

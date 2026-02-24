@@ -1,21 +1,4 @@
-# ===== DEPENDENCIAS =====
-node_modules/
-package-lock.json
-package.json
-yarn.lock
-pnpm-lock.yaml
-bun.lockb
-
-# ===== ARCHIVOS DE ENTORNO =====
-.env
-.env.local
-.env.production
-.env.development
-.env.staging
-.env.*
-!.env.example
-
-# ===== CARPETAS DE DESARROLLO =====
+# ===== CARPETAS DE DESARROLLO Y SISTEMA =====
 .vscode/
 .idea/
 *.sublime-*
@@ -27,39 +10,25 @@ desktop.ini
 *~
 ._*
 
-# ===== ARCHIVOS DE SEGURIDAD (NUNCA SUBIR A GITHUB) =====
-js/auth.js
-admin-login.html
-admin-panel.html
-js/admin.js
-css/admin.css
-*admin*
-*Auth*
-*Login*
-*.key
-*.pem
-*.crt
-*.p12
-secrets.*
-
-# ===== IMÁGENES SUBIDAS POR USUARIOS =====
+# ===== IMÁGENES SUBIDAS LOCALMENTE (Evita subir fotos de prueba al repo) =====
+uploads/
+media/
+temp/
+tmp/
+cache/
 img/productos/subidas/
 img/ropa/subidas/
 img/perfumes/subidas/
-uploads/
-media/
-content/uploads/
-temp/
 
 # ===== LOGS =====
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-# ===== ARCHIVOS TEMPORALES =====
+# ===== ARCHIVOS TEMPORALES Y DE RESPALDO =====
 *.tmp
 *.temp
 *.bak
@@ -67,10 +36,22 @@ lerna-debug.log*
 *.old
 *.orig
 *.part
-*.cache
-*.pid
-*.seed
-*.pid.lock
+
+# ===== VARIABLES DE ENTORNO (Seguridad futura) =====
+.env
+.env.local
+.env.production
+.env.development
+.env.staging
+.env.*
+!.env.example
+
+# ===== DEPENDENCIAS Y PAQUETES (Por si usas Node.js luego) =====
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
 
 # ===== CARPETAS DE COMPILACIÓN =====
 dist/
@@ -78,8 +59,6 @@ build/
 out/
 release/
 target/
-*.min.js
-*.min.css
 
 # ===== ARCHIVOS DE CONFIGURACIÓN LOCAL =====
 *.local
@@ -88,61 +67,16 @@ target/
 *.local.yaml
 *.local.js
 
-# ===== ARCHIVOS DEL SISTEMA =====
-*.class
-*.exe
-*.dll
-*.so
-*.dylib
-*.jar
-*.war
-*.ear
-*.pyc
-*.pyo
-
-# ===== ARCHIVOS DE PRUEBAS =====
-coverage/
-.nyc_output/
-*.test.js
-*.spec.js
-*.test.ts
-*.spec.ts
-*.test.jsx
-*.spec.jsx
-
-# ===== ARCHIVOS DE DOCUMENTACIÓN =====
-*.pdf
-*.docx
-*.xlsx
-*.pptx
-*.zip
-*.rar
-*.7z
-*.tar.gz
-*.tgz
-
-# ===== EDITORES =====
-.project
-.classpath
-.settings/
-*.sublime-project
-*.sublime-workspace
-.vs/
-.idea/
-*.iml
-
-# ===== CARPETAS ADICIONALES =====
-temp/
-tmp/
-cache/
-logs/
-*.sql
+# ===== BASES DE DATOS LOCALES =====
 *.sqlite
 *.db
 
-# ===== EXCEPCIONES (ARCHIVOS QUE SÍ SE SUBEN) =====
+# ===== EXCEPCIONES IMPORTANTES (Garantiza que estos sí se suban) =====
 !.gitignore
 !.env.example
 !README.md
-!LICENSE
-!*.md
+!admin-panel.html
+!admin-login.html
+!js/admin.js
+!js/auth.js
+!css/admin.css
