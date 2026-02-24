@@ -1,82 +1,18 @@
-# ===== CARPETAS DE DESARROLLO Y SISTEMA =====
+# ===== ARCHIVOS DEL SISTEMA Y EDITOR =====
 .vscode/
-.idea/
-*.sublime-*
 .DS_Store
 Thumbs.db
 desktop.ini
-*.swp
-*.swo
-*~
-._*
 
-# ===== IMÁGENES SUBIDAS LOCALMENTE (Evita subir fotos de prueba al repo) =====
-uploads/
-media/
-temp/
-tmp/
-cache/
+# ===== IMÁGENES DE PRUEBA (Evita subir fotos de tus test locales) =====
 img/productos/subidas/
 img/ropa/subidas/
 img/perfumes/subidas/
+uploads/
 
-# ===== LOGS =====
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# ===== ARCHIVOS TEMPORALES Y DE RESPALDO =====
-*.tmp
-*.temp
-*.bak
-*.backup
-*.old
-*.orig
-*.part
-
-# ===== VARIABLES DE ENTORNO (Seguridad futura) =====
-.env
-.env.local
-.env.production
-.env.development
-.env.staging
-.env.*
-!.env.example
-
-# ===== DEPENDENCIAS Y PAQUETES (Por si usas Node.js luego) =====
-node_modules/
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-bun.lockb
-
-# ===== CARPETAS DE COMPILACIÓN =====
-dist/
-build/
-out/
-release/
-target/
-
-# ===== ARCHIVOS DE CONFIGURACIÓN LOCAL =====
-*.local
-*.local.json
-*.local.xml
-*.local.yaml
-*.local.js
-
-# ===== BASES DE DATOS LOCALES =====
-*.sqlite
-*.db
-
-# ===== EXCEPCIONES IMPORTANTES (Garantiza que estos sí se suban) =====
-!.gitignore
-!.env.example
-!README.md
-!admin-panel.html
-!admin-login.html
-!js/admin.js
-!js/auth.js
-!css/admin.css
+# ===== SEGURIDAD: OCULTAR PANEL DE ADMINISTRACIÓN =====
+admin-login.html
+admin-panel.html
+js/auth.js
+js/admin.js
+css/admin.css
