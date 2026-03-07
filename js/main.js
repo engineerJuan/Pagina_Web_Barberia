@@ -1,3 +1,4 @@
+// Define el número de WhatsApp principal y establece el evento que arranca toda la lógica de la página una vez que el HTML se ha cargado por completo. Dependiendo de si detecta la cuadrícula de productos (lo que indica que es la página de la tienda), inicializa las funciones específicas de búsqueda y filtros, o solo las utilidades generales de la página principal.
 const WHATSAPP_NUMBER = "527299635417";
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Configura un observador de intersección (IntersectionObserver) para animar las secciones de la página conforme el usuario hace scroll hacia abajo. Cada vez que una sección entra en el área visible de la pantalla, le aplica una transición para que aparezca suavemente moviéndose hacia arriba.
 function initScrollAnimation() {
     const sections = document.querySelectorAll('section');
     
@@ -43,6 +45,7 @@ function initScrollAnimation() {
     });
 }
 
+// Controla el comportamiento del menú de navegación tipo hamburguesa en dispositivos móviles. Permite abrir y cerrar el menú lateral, bloquea el scroll de la página de fondo cuando está abierto, y se asegura de cerrarlo automáticamente si el usuario hace clic en un enlace o fuera de su área.
 function initMobileMenu() {
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
@@ -69,6 +72,7 @@ function initMobileMenu() {
     }
 }
 
+// Inicializa y maneja el sistema de filtros por categorías de la tienda. Al hacer clic en un botón de filtro (píldora), actualiza visualmente cuál botón está activo y llama a la función global para renderizar únicamente los productos que correspondan a la categoría seleccionada.
 function initFilters() {
     const filterPills = document.querySelectorAll('.pill');
    
@@ -94,6 +98,7 @@ function handleFilterClick(event) {
     }
 }
 
+// Activa la funcionalidad de la barra de búsqueda en tiempo real aplicando un retraso (debounce) de 300 milisegundos. Esto optimiza el rendimiento evitando que la búsqueda se ejecute por cada letra escrita, esperando a que el usuario termine de teclear.
 function initSearch() {
     const searchInput = document.getElementById('searchInput');
    
@@ -111,6 +116,7 @@ function handleSearchInput(event) {
     }, 300);
 }
 
+// Configura todos los eventos necesarios para cerrar correctamente las ventanas emergentes (el modal del producto y el visor de imágenes). Permite cerrarlos haciendo clic en el botón de la "X", en el fondo oscuro, o mediante la lógica propia del Lightbox si este está activo en la página.
 function initModalClose() {
     const modal = document.getElementById('productModal');
     const closeBtn = document.getElementById('closeModalBtn');
@@ -162,6 +168,7 @@ function initModalClose() {
     }
 }
 
+// Implementa un desplazamiento suave (smooth scroll) para todos los enlaces internos de la página que apuntan a un ancla (#). Esto evita el salto brusco predeterminado del navegador y desliza la vista de forma fluida hasta la sección deseada.
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -177,6 +184,7 @@ function initSmoothScroll() {
     });
 }
 
+// Maneja los clics en los enlaces que dirigen directamente a la sección de servicios. Desplaza la pantalla suavemente hacia esa área y le aplica un breve efecto de destello en el color de fondo para indicarle visualmente al usuario dónde se encuentra.
 function initServiciosContacto() {
     const servicioLinks = document.querySelectorAll('.servicio-link');
    
@@ -202,6 +210,7 @@ function handleServicioClick(e) {
     }
 }
 
+// Controla la visibilidad del botón flotante de WhatsApp dependiendo del contexto. Lo oculta automáticamente si detecta que el usuario está en la página de la tienda (para no interferir con el diseño) y lo mantiene visible en las demás páginas.
 function initWhatsAppButton() {
     const isShop = document.body.classList.contains('bg-light');
     const waFloat = document.querySelector('.whatsapp-float');
@@ -212,6 +221,7 @@ function initWhatsAppButton() {
     }
 }
 
+// Expone varias funciones y métodos de inicialización al objeto global (window) para que puedan ser utilizadas desde cualquier parte del código o llamadas directamente desde los atributos "onclick" en el HTML (como cerrar modales de emergencia y navegar entre páginas).
 window.closeModal = function() {
     const modal = document.getElementById('productModal');
     if (modal) {

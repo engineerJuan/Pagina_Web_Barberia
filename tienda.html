@@ -36,7 +36,6 @@
         </nav>
     </header>
 
-    <!-- BOTÓN WHATSAPP FLOTANTE -->
     <a href="https://wa.me/527299635417?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos."
        class="whatsapp-float"
        target="_blank"
@@ -47,19 +46,16 @@
     </a>
 
     <main class="container">
-        <!-- FILTROS DE PRODUCTOS -->
         <div class="filter-pills" role="tablist" aria-label="Filtros de productos">
             <button class="pill active" data-filter="todo" onclick="renderProductos('todo')" role="tab" aria-selected="true">TODO</button>
             <button class="pill" data-filter="grooming" onclick="renderProductos('grooming')" role="tab" aria-selected="false">PRODUCTOS</button>
             <button class="pill" data-filter="perfumes" onclick="renderProductos('perfumes')" role="tab" aria-selected="false">PERFUMES</button>
             <button class="pill" data-filter="ropa" onclick="renderProductos('ropa')" role="tab" aria-selected="false">ROPA</button>
         </div>
-
-        <!-- GRID DE PRODUCTOS -->
         <div id="productGrid" class="product-grid" aria-label="Lista de productos"></div>
     </main>
 
-    <!-- MODAL DE PRODUCTO -->
+   
     <div id="productModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-overlay" tabindex="-1"></div>
         <div class="modal-container">
@@ -68,7 +64,7 @@
             </button>
            
             <div class="modal-image-area" id="modalImageArea" role="region" aria-label="Galería de imágenes">
-                <!-- El contador se inserta aquí dinámicamente con JavaScript -->
+          
             </div>
            
             <div class="modal-details">
@@ -80,7 +76,6 @@
                     <span class="stock-text" id="stockText"></span>
                 </div>
                
-                <!-- SELECTOR DE TALLAS -->
                 <div id="talla-section" class="talla-container" style="display: none;">
                     <span class="talla-label">
                         <i class="fas fa-ruler"></i> SELECCIONA TU TALLA:
@@ -105,7 +100,6 @@
         </div>
     </div>
 
-    <!-- VISOR DE IMAGEN COMPLETA -->
     <div id="imageViewer" class="image-viewer" role="dialog" aria-modal="true" aria-label="Visor de imagen completa">
         <button class="image-viewer-close" id="imageViewerClose" aria-label="Cerrar visor">
             <i class="fas fa-times"></i>
@@ -121,7 +115,6 @@
         </button>
     </div>
 
-    <!-- FOOTER CON BOTÓN ADMIN EN ESQUINA DERECHA -->
     <footer class="footer-final">
         <div class="container">
             <p>© 2026 Barber & Drinks. Todos los derechos reservados.</p>

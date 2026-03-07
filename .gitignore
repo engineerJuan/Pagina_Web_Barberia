@@ -3,6 +3,7 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+.hintrc
 
 # ===== IMÁGENES DE PRUEBA (Evita subir fotos de tus test locales) =====
 img/productos/subidas/

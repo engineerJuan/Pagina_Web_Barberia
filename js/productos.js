@@ -1,4 +1,4 @@
-// ===== VARIABLE GLOBAL Y CARGA INICIAL =====
+// Esta sección inicializa el inventario de la tienda. Declara la variable global, busca si ya hay datos guardados en el almacenamiento local para cargar sus imágenes correctamente, o de lo contrario, carga un catálogo por defecto y lo guarda para usos futuros.
 let productos = [];
 
 function cargarProductos() {
@@ -106,6 +106,7 @@ function cargarProductos() {
 
 productos = cargarProductos();
 
+// Este bloque escucha el evento 'inventoryUpdated'. Si detecta cambios en el inventario, actualiza la variable global y vuelve a dibujar todos los productos para que la pantalla siempre muestre la información más reciente.
 window.addEventListener('inventoryUpdated', function(e) {
     productos = e.detail;
     if (document.getElementById('productGrid') && typeof window.renderProductos === 'function') {
@@ -113,9 +114,11 @@ window.addEventListener('inventoryUpdated', function(e) {
     }
 });
 
+// Esta función maneja la apertura de la ventana emergente (Lightbox) al hacer clic en un producto. Recibe el ID del producto y coordina el cierre de modales previos, la búsqueda de los datos y su visualización.
 window.openModal = function(id) {
     console.log('Abriendo modal para producto ID:', id);
     
+    // Verifica si ya existe una ventana modal abierta en la pantalla y, de ser así, utiliza las funciones del Lightbox para cerrarla correctamente antes de procesar una nueva apertura.
     const modalAbierto = document.getElementById('productModal');
     if (modalAbierto && modalAbierto.classList.contains('active')) {
         if (window.Lightbox) {
@@ -123,6 +126,7 @@ window.openModal = function(id) {
         }
     }
     
+    // Aplica un pequeño retraso para evitar conflictos visuales al cerrar un modal previo, y luego intenta recuperar la lista de productos más actualizada directamente del almacenamiento local o de la variable global como respaldo.
     setTimeout(() => {
         let listado = [];
         try {
@@ -133,6 +137,7 @@ window.openModal = function(id) {
             listado = productos;
         }
         
+        // Busca el producto específico por su ID dentro del listado recuperado. Si lo encuentra, crea una copia de sus datos y los envía al Lightbox para que se muestren en pantalla; de lo contrario, arroja un error en consola.
         const producto = listado.find(p => p.id == id);
         
         if (producto) {
@@ -149,13 +154,16 @@ window.openModal = function(id) {
     }, 50);
 };
 
+// Esta función principal se encarga de dibujar dinámicamente las tarjetas de los productos en la página. Recibe un filtro de categoría, limpia el contenedor, procesa los datos y genera el HTML correspondiente para mostrarlos.
 window.renderProductos = function(filtro = "todo") {
+    // Identifica el contenedor principal de la cuadrícula en el HTML. Si este contenedor no existe en la vista actual, detiene inmediatamente la ejecución para evitar errores en la página.
     const grid = document.getElementById('productGrid');
     if (!grid) {
         console.log('No hay grid de productos');
         return;
     }
 
+    // Recupera el inventario de productos desde el almacenamiento local y realiza una limpieza rápida para asegurarse de que todos los artículos tengan al menos una imagen asignada, evitando que el diseño se rompa.
     let listadoActual = [];
     try {
         const stored = localStorage.getItem('barberInventory');
@@ -172,8 +180,8 @@ window.renderProductos = function(filtro = "todo") {
         listadoActual = productos;
     }
 
+    // Limpia el contenedor de la cuadrícula y aplica el filtro seleccionado por el usuario. Si el resultado del filtro está vacío, muestra un mensaje indicando que no hay productos para esa categoría y detiene la función.
     grid.innerHTML = '';
-
     let filtrados = filtro === "todo" 
         ? listadoActual 
         : listadoActual.filter(p => p.categoria && p.categoria.toLowerCase() === filtro.toLowerCase());
@@ -183,6 +191,7 @@ window.renderProductos = function(filtro = "todo") {
         return;
     }
 
+    // Transforma el identificador técnico de la categoría en un texto limpio y en mayúsculas para las etiquetas visuales, y luego genera el HTML de todas las tarjetas de producto para inyectarlas de golpe en la cuadrícula.
     const getCategoriaTexto = (categoria) => {
         if (!categoria) return 'PRODUCTO';
         const cat = categoria.toLowerCase();
@@ -208,7 +217,9 @@ window.renderProductos = function(filtro = "todo") {
     console.log('Renderizado completado, productos:', filtrados.length);
 };
 
+// Esta función permite buscar productos en tiempo real mediante un campo de texto. Captura lo que el usuario escribe, lo compara contra el inventario y actualiza la cuadrícula mostrando solo las coincidencias exactas.
 window.buscarProductos = function() {
+    // Captura el valor ingresado en la barra de búsqueda (limpiando espacios y pasándolo a minúsculas) y verifica que el contenedor de la cuadrícula exista antes de proceder.
     const input = document.getElementById('searchInput');
     if (!input) return;
     
@@ -216,6 +227,7 @@ window.buscarProductos = function() {
     const grid = document.getElementById('productGrid');
     if (!grid) return;
     
+    // Prepara la lista base de productos leyendo el inventario más reciente desde el almacenamiento local, garantizando que la búsqueda se realice sobre los datos actualizados.
     let listado = [];
     try {
         const stored = localStorage.getItem('barberInventory');
@@ -224,11 +236,13 @@ window.buscarProductos = function() {
         listado = productos;
     }
     
+    // Verifica si la barra de búsqueda está vacía; de ser así, cancela el proceso de filtrado y vuelve a renderizar todo el catálogo completo.
     if (termino === '') {
         window.renderProductos('todo');
         return;
     }
     
+    // Filtra el inventario buscando coincidencias del término ingresado tanto en el nombre del producto como en su categoría. Si no hay coincidencias, muestra un mensaje de "sin resultados" en la pantalla.
     const filtrados = listado.filter(p =>
         p.nombre.toLowerCase().includes(termino) ||
         (p.categoria && p.categoria.toLowerCase().includes(termino))
@@ -239,6 +253,7 @@ window.buscarProductos = function() {
         return;
     }
     
+    // Convierte las categorías a un formato amigable y genera el HTML de los productos que coincidieron con la búsqueda para mostrarlos inmediatamente en la interfaz.
     const getCategoriaTexto = (categoria) => {
         if (!categoria) return 'PRODUCTO';
         const cat = categoria.toLowerCase();
@@ -262,6 +277,7 @@ window.buscarProductos = function() {
     `).join('');
 };
 
+// Este bloque espera a que toda la estructura del documento HTML termine de cargar; una vez listo, si detecta la cuadrícula de productos, dispara el primer renderizado para mostrar la tienda completa.
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('productGrid')) {
         window.renderProductos('todo');

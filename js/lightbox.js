@@ -1,3 +1,4 @@
+// Este objeto maneja toda la lógica de la ventana emergente (modal) y el visor de imágenes a pantalla completa. Almacena temporalmente los datos del producto actual, las imágenes, la talla seleccionada y los índices numéricos para saber qué foto específica se está visualizando en cada momento.
 const Lightbox = {
     currentProduct: null,
     currentIndex: 0,
@@ -5,11 +6,13 @@ const Lightbox = {
     currentImages: [],
     currentViewerIndex: 0,
    
+    // Punto de entrada principal del Lightbox. Se ejecuta automáticamente cuando la página termina de cargar para arrancar sus funciones básicas y dejar listos los eventos que escuchan las acciones del usuario.
     init: function() {
         console.log('Lightbox inicializado');
         this.configurarEventos();
     },
    
+    // Configura los "escuchadores" globales del teclado y el ratón. Permite cerrar las ventanas usando la tecla "Escape", navegar entre las fotos con las flechas de dirección (Izquierda/Derecha) y precargar las imágenes en segundo plano cuando pasas el cursor sobre un producto para que abran al instante.
     configurarEventos: function() {
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
@@ -41,7 +44,7 @@ const Lightbox = {
                 }
             }
         });
-        
+       
         document.addEventListener('mouseenter', (e) => {
             if (e.target.closest('.product-card')) {
                 const img = e.target.closest('.product-card').querySelector('img');
@@ -53,31 +56,33 @@ const Lightbox = {
         }, true);
     },
    
+    // Función auxiliar que determina qué ruta de imagen usar. Revisa si la imagen solicitada es una subida reciente guardada en el almacenamiento local (localStorage); si no la encuentra ahí, devuelve la ruta original o una imagen de relleno para evitar que aparezcan cuadros rotos.
     obtenerImagen: function(ruta) {
         if (!ruta) return 'img/placeholder.jpg';
-        
+       
         const imagenesGuardadas = JSON.parse(localStorage.getItem('imagenesSubidas') || '{}');
-        
+       
         if (ruta.startsWith('uploads/') && imagenesGuardadas[ruta]) {
             return imagenesGuardadas[ruta];
         }
-        
+       
         if (ruta.startsWith('img/')) {
             return ruta;
         }
-        
+       
         return ruta;
     },
    
+    // Se encarga de construir, rellenar y mostrar la ventana emergente principal del producto. Limpia el contenido visual anterior, inyecta las fotos, actualiza precio, título y características, e inicializa dinámicamente el selector de tallas y el medidor de inventario antes de hacer visible el modal.
     abrirModal: function(producto, index = 0) {
         console.log('Abriendo modal para:', producto.nombre);
-        
+       
         this.currentProduct = producto;
         this.currentIndex = index;
         this.tallaSeleccionada = null;
-        
-        this.currentImages = (producto.imagenes && producto.imagenes.length > 0) 
-            ? [...producto.imagenes] 
+       
+        this.currentImages = (producto.imagenes && producto.imagenes.length > 0)
+            ? [...producto.imagenes]
             : [producto.img || 'img/placeholder.jpg'];
        
         const modal = document.getElementById('productModal');
@@ -92,7 +97,7 @@ const Lightbox = {
         }
        
         modalArea.innerHTML = '';
-        
+       
         modalTitle.textContent = producto.nombre || 'Producto';
         modalPrice.textContent = producto.precioFormato || producto.precio || '$0';
        
@@ -102,14 +107,14 @@ const Lightbox = {
             img.alt = producto.nombre || 'Producto';
             img.loading = 'lazy';
             img.setAttribute('data-index', i);
-            
+           
             const srcReal = this.obtenerImagen(imgSrc);
-            
+           
             img.onerror = () => {
                 console.error('Error cargando imagen:', imgSrc);
                 img.src = 'img/placeholder.jpg';
             };
-            
+           
             img.src = srcReal;
            
             img.addEventListener('click', (e) => {
@@ -167,6 +172,7 @@ const Lightbox = {
         document.body.style.overflow = 'hidden';
     },
    
+    // Abre un visor interactivo de pantalla completa (estilo galería) al hacer clic en una foto específica dentro del modal. Carga las imágenes temporalmente, sincroniza el contador con la foto clickeada y bloquea el desplazamiento táctil para evitar saltos raros.
     abrirVisor: function(imagenes, index) {
         console.log('Abriendo visor en índice:', index);
        
@@ -179,7 +185,8 @@ const Lightbox = {
        
         if (!viewer || !viewerContainer || !counter) return;
        
-        viewerContainer.innerHTML = '';
+        const prevImages = viewerContainer.querySelectorAll('.viewer-img');
+        prevImages.forEach(img => img.remove());
        
         this.currentImages.forEach((imgSrc, i) => {
             const img = document.createElement('img');
@@ -187,14 +194,14 @@ const Lightbox = {
             img.alt = 'Producto';
             img.loading = 'lazy';
             img.setAttribute('data-index', i);
-            
+           
             const srcReal = this.obtenerImagen(imgSrc);
-            
+           
             img.onerror = () => {
                 console.error('Error en visor:', imgSrc);
                 img.src = 'img/placeholder.jpg';
             };
-            
+           
             img.src = srcReal;
            
             img.addEventListener('click', (e) => {
@@ -230,6 +237,7 @@ const Lightbox = {
         this.configurarNavegacionVisor();
     },
    
+    // Controla la lógica matemática para cambiar entre la imagen anterior y la siguiente dentro de la ventana modal. Funciona en bucle (si llegas al final, te devuelve a la primera foto) y desliza el contenedor automáticamente hasta la nueva posición.
     navegarImagen: function(direccion) {
         if (!this.currentProduct) return;
        
@@ -252,6 +260,7 @@ const Lightbox = {
         }
     },
    
+    // Funciona igual que la navegación del modal principal, pero está separada para controlar de forma completamente independiente las flechas de movimiento y el contador numérico del visor a pantalla completa.
     navegarVisor: function(direccion) {
         if (!this.currentImages || this.currentImages.length === 0) return;
        
@@ -273,6 +282,7 @@ const Lightbox = {
         }
     },
    
+    // Vincula las acciones de clic a los botones físicos de "anterior" y "siguiente" en la ventana modal del producto. Evalúa de forma inteligente si el producto solo tiene una imagen y, en ese caso, oculta las flechas para mantener el diseño pulcro.
     configurarNavegacionModal: function() {
         const prevBtn = document.getElementById('prevImageBtn');
         const nextBtn = document.getElementById('nextImageBtn');
@@ -302,6 +312,7 @@ const Lightbox = {
         }
     },
    
+    // Establece las acciones de los botones del visor de pantalla completa (flechas y botón de cerrar). Además, configura un clic inteligente sobre el fondo oscuro que cierra todo el visor si el usuario hace clic fuera de la foto.
     configurarNavegacionVisor: function() {
         const prevBtn = document.getElementById('viewerPrevBtn');
         const nextBtn = document.getElementById('viewerNextBtn');
@@ -330,14 +341,15 @@ const Lightbox = {
         }
        
         if (viewer) {
-            viewer.addEventListener('click', (e) => {
+            viewer.onclick = (e) => {
                 if (e.target === viewer) {
                     this.cerrarVisor();
                 }
-            });
+            };
         }
     },
    
+    // Apaga y oculta por completo la ventana modal principal del producto. Se encarga de limpiar el contenedor interno de imágenes para evitar consumos de memoria extraños y le devuelve a la página base su capacidad de desplazamiento normal (scroll).
     cerrarModal: function() {
         const modal = document.getElementById('productModal');
         if (modal) {
@@ -353,19 +365,28 @@ const Lightbox = {
         this.currentImages = [];
     },
    
+    // Oculta el visor de pantalla completa. A diferencia del modal, este bloque destruye específicamente los elementos de imagen para que no choquen al volver a entrar, pero mantiene el fondo de la página bloqueado si la ventana modal principal de abajo sigue abierta.
     cerrarVisor: function() {
         const viewer = document.getElementById('imageViewer');
         if (viewer) {
             viewer.classList.remove('active');
             const viewerContainer = document.querySelector('.image-viewer-container');
             if (viewerContainer) {
-                viewerContainer.innerHTML = '';
+                const images = viewerContainer.querySelectorAll('.viewer-img');
+                images.forEach(img => img.remove());
                 viewerContainer.onscroll = null;
             }
         }
-        document.body.style.overflow = 'auto';
+        
+        const modal = document.getElementById('productModal');
+        if (modal && modal.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
     },
    
+    // Evalúa si el producto mostrado es de la categoría "ropa" para generar dinámicamente un menú interactivo con las tallas disponibles (S, M, L, XL). Aplica clases especiales a los botones, tachando o deshabilitando las tallas que tengan un stock menor o igual a cero.
     setupSizeSelector: function(producto) {
         const tallaSection = document.getElementById('talla-section');
         const tallaContainer = document.getElementById('talla-botones');
@@ -425,6 +446,7 @@ const Lightbox = {
         }
     },
    
+    // Lee la cantidad total del producto en el inventario y adapta la etiqueta visual superior del modal cambiando sus clases CSS para indicarle al cliente si hay buen stock (verde), si quedan pocas piezas (amarillo) o si el producto ya está agotado (rojo).
     actualizarStockIndicator: function(stock) {
         const indicator = document.getElementById('stockIndicator');
         const badge = document.getElementById('stockBadge');
@@ -444,6 +466,7 @@ const Lightbox = {
         }
     },
    
+    // Controla la lógica del botón grande para comprar. Obliga al cliente a seleccionar una talla antes de continuar (mostrando un mensaje de error si se lo salta) y posteriormente genera el enlace oficial de WhatsApp concatenando el nombre, el precio y la talla seleccionada.
     configurarWhatsAppBtn: function() {
         const waBtn = document.getElementById('btnWhatsappModal');
         const errorMsg = document.getElementById('talla-error');
@@ -474,8 +497,10 @@ const Lightbox = {
     }
 };
 
+// Bloque de código final que espera obligatoriamente a que toda la estructura HTML esté procesada por el navegador. Una vez lista, da el banderazo de salida disparando la función de inicialización del objeto Lightbox.
 document.addEventListener('DOMContentLoaded', function() {
     Lightbox.init();
 });
 
+// Convierte el objeto privado Lightbox en una herramienta global del navegador (window). Esto garantiza que cualquier botón HTML externo o script diferente pueda utilizar sus funciones sin importar desde dónde se invoque.
 window.Lightbox = Lightbox;

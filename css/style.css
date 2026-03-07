@@ -1,4 +1,5 @@
-/* ===== VARIABLES GLOBALES ===== */
+/* ===== VARIABLES GLOBALES Y RESET ===== */
+/* Define los colores base, sombras y transiciones de todo el sitio. También resetea los márgenes del navegador y establece la fuente principal y animaciones de carga para las secciones. */
 :root {
     --white: #FFFFFF;
     --black: #000000;
@@ -42,7 +43,6 @@ body.bg-light {
     padding: 0 24px;
 }
 
-/* ===== ANIMACIÓN SUAVE DE SECCIONES ===== */
 section {
     opacity: 0;
     transform: translateY(20px);
@@ -57,6 +57,7 @@ section {
 }
 
 /* ===== HEADER BASE ===== */
+/* Controla la barra de navegación superior fija, alineando el logo, el botón de cita y ocultando el menú hamburguesa que solo se activará en vista móvil. */
 .header {
     position: fixed;
     top: 0;
@@ -124,6 +125,7 @@ section {
 }
 
 /* ===== BOTÓN WHATSAPP FLOTANTE ===== */
+/* Estiliza el botón de contacto en la esquina inferior derecha, aplicando una animación de pulsación constante y mostrando un texto emergente al pasar el mouse por encima. */
 .whatsapp-float {
     position: fixed;
     bottom: 30px;
@@ -184,7 +186,8 @@ section {
 
 body.bg-light .whatsapp-float { display: none !important; }
 
-/* ===== HERO ===== */
+/* ===== HERO Y ESTADÍSTICAS ===== */
+/* Da formato a la sección principal de bienvenida con imagen de fondo oscura. Incluye el diseño de los textos grandes, los botones principales y el bloque de tarjetas numéricas. */
 .hero {
     position: relative;
     padding: 140px 0 80px;
@@ -243,7 +246,6 @@ body.bg-light .whatsapp-float { display: none !important; }
     max-width: 500px;
 }
 
-/* ===== HERO BOTONES MÁS ANCHOS ===== */
 .hero-buttons { 
     display: flex; 
     gap: 16px; 
@@ -291,7 +293,6 @@ body.bg-light .whatsapp-float { display: none !important; }
     color: var(--white);
 }
 
-/* ===== BOTÓN AGENDAR CITA ESPECÍFICO ===== */
 .btn-primary[style*="background-color: #1a73e8"] {
     background-color: #1a73e8 !important;
     border-color: #1a73e8 !important;
@@ -324,7 +325,6 @@ body.bg-light .whatsapp-float { display: none !important; }
     border-color: var(--black) !important;
 }
 
-/* ===== ESTADÍSTICAS MÁS ANCHAS ===== */
 .hero-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -356,7 +356,8 @@ body.bg-light .whatsapp-float { display: none !important; }
     line-height: 1.4;
 }
 
-/* ===== SERVICIOS ===== */
+/* ===== SERVICIOS, UBICACIÓN Y FOOTER ===== */
+/* Organiza el listado de precios interactivos, el contenedor curvo de Google Maps, las tarjetas de horarios y la estructura a tres columnas del pie de página con sus enlaces legales y botón de admin. */
 .section { padding: 80px 0; }
 .section-header { text-align: center; margin-bottom: 48px; }
 .section-title {
@@ -423,7 +424,6 @@ body.bg-light .whatsapp-float { display: none !important; }
     object-fit: cover;
 }
 
-/* ===== UBICACIÓN ===== */
 .ubicacion-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -476,7 +476,6 @@ body.bg-light .whatsapp-float { display: none !important; }
     display: inline-block;
 }
 
-/* ===== CONTACTO Y FOOTER ===== */
 .contacto-final {
     padding: 60px 0;
     background-color: var(--gray-light);
@@ -527,7 +526,6 @@ body.bg-light .whatsapp-float { display: none !important; }
     border: 1px solid var(--black);
 }
 
-/* ===== FOOTER CON ADMIN EN ESQUINA DERECHA (REDUCIDO) ===== */
 .footer-final {
     background-color: var(--white);
     padding: 20px 0 15px;
@@ -569,7 +567,6 @@ body.bg-light .whatsapp-float { display: none !important; }
     text-decoration: underline;
 }
 
-/* ===== BOTÓN ADMIN EN ESQUINA INFERIOR DERECHA ===== */
 .btn-admin-footer {
     position: absolute;
     bottom: 15px;
@@ -615,7 +612,8 @@ body.bg-light .whatsapp-float { display: none !important; }
     display: inline;
 }
 
-/* ===== TIENDA - BUSCADOR CON LUPA CENTRADA (solo escritorio) ===== */
+/* ===== TIENDA: BUSCADOR Y FILTROS ===== */
+/* Estilos del cuadro de búsqueda con icono central, además de la barra de botones (píldoras) usados para filtrar la tienda según categorías. */
 .search-container {
     flex: 0 1 500px;
     margin: 0 auto;
@@ -656,7 +654,6 @@ body.bg-light .whatsapp-float { display: none !important; }
     color: var(--black); 
 }
 
-/* ===== FILTROS MÁS COMPACTOS ===== */
 .filter-pills {
     display: flex;
     gap: 10px;
@@ -690,7 +687,8 @@ body.bg-light .whatsapp-float { display: none !important; }
     box-shadow: var(--shadow-sm);
 }
 
-/* ===== CONTENEDOR DE PRODUCTOS ESTILO MERCADO LIBRE ===== */
+/* ===== PRODUCTOS EN TIENDA ===== */
+/* Diseño de las tarjetas individuales de artículos estilo tienda en línea. Crea la cuadrícula adaptable, centra las fotos y formatea los precios y etiquetas descriptivas. */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -777,7 +775,8 @@ body.bg-light .whatsapp-float { display: none !important; }
     grid-column: 1 / -1;
 }
 
-/* ===== MODAL DE PRODUCTO ===== */
+/* ===== MODAL DE PRODUCTOS Y VISOR ===== */
+/* Controla la apariencia de la ventana emergente al abrir un artículo, el área lateral de fotos deslizables, los botones selectores de tallas, los mensajes de inventario y el visor oscuro de fotos en pantalla completa. */
 .modal {
     display: none;
     position: fixed;
@@ -911,7 +910,6 @@ body.bg-light .whatsapp-float { display: none !important; }
     color: #000 !important;
 }
 
-/* ===== TALLAS Y STOCK ===== */
 .talla-container {
     margin: 20px 0 25px 0;
     text-align: left;
@@ -986,7 +984,6 @@ body.bg-light .whatsapp-float { display: none !important; }
 }
 .modal-description li i { color: var(--gray-medium); }
 
-/* ===== VISOR DE IMÁGENES Y NAVEGACIÓN ===== */
 .image-viewer {
     display: none;
     position: fixed;
@@ -1096,14 +1093,14 @@ body.bg-light .whatsapp-float { display: none !important; }
     text-align: center;
 }
 
-/* ===== RESET DE LISTAS PARA EL MENÚ (ELIMINA PUNTOS) ===== */
+/* ===== ADAPTACIÓN A PANTALLAS GRANDES Y MEDIANAS ===== */
+/* Reconfigura el header en monitores para mostrar el menú horizontal, ocultar el botón hamburguesa y reorganizar el grid, además de alejar los botones de cierre del visor para evitar clics erróneos. */
 .nav-list {
     list-style: none !important;
     padding: 0 !important;
     margin: 0 !important;
 }
 
-/* ===== PC: ALINEACIÓN TOTAL DEL HEADER ===== */
 @media (min-width: 769px) {
     .header-container {
         display: grid;
@@ -1181,7 +1178,6 @@ body.bg-light .whatsapp-float { display: none !important; }
     .tienda-menu { display: none !important; }
 }
 
-/* ===== ADMIN HEADER - AJUSTES ESPECÍFICOS ===== */
 @media (min-width: 769px) {
     .admin-panel .header-container {
         display: grid;
@@ -1203,7 +1199,6 @@ body.bg-light .whatsapp-float { display: none !important; }
     }
 }
 
-/* ===== PC: VISOR ESTILO MERCADO LIBRE ===== */
 @media (min-width: 1025px) {
     .modal-image-counter, .image-viewer-counter {
         top: 30px !important;
@@ -1218,7 +1213,8 @@ body.bg-light .whatsapp-float { display: none !important; }
     }
 }
 
-/* ===== MÓVIL Y TABLET: MODAL OPTIMIZADO ===== */
+/* ===== ADAPTACIÓN A MÓVILES (HASTA 1024PX) ===== */
+/* Compacta el modal convirtiéndolo en una columna, reduce botones e imágenes y **mueve el contador de fotos a la derecha** para que no choque con la flecha de regresar. */
 @media (max-width: 1024px) {
     .modal-nav, .image-viewer-nav {
         display: none !important;
@@ -1263,18 +1259,22 @@ body.bg-light .whatsapp-float { display: none !important; }
         object-fit: contain;
     }
 
+    /* AQUÍ SE APLICA TU CORRECCIÓN: Contador movido a la derecha */
     .modal-image-counter {
         top: 10px !important;
-        left: 10px !important;
+        right: 10px !important;
+        left: auto !important;
         background: rgba(0, 0, 0, 0.4) !important;
         padding: 2px 6px !important;
         font-size: 0.55rem !important;
         min-width: 30px;
     }
     
+    /* AQUÍ SE APLICA TU CORRECCIÓN: Contador del visor movido a la derecha */
     .image-viewer-counter {
-        top: 15px !important;
-        left: 15px !important;
+        top: 10px !important;
+        right: 10px !important;
+        left: auto !important;
         padding: 3px 8px !important;
         font-size: 0.6rem !important;
         min-width: 35px;
@@ -1357,7 +1357,8 @@ body.bg-light .whatsapp-float { display: none !important; }
     }
 }
 
-/* ===== MÓVIL PEQUEÑO (< 768px): AJUSTES DE GRID Y LUPA ===== */
+/* ===== ADAPTACIÓN A TELÉFONOS (< 768px) ===== */
+/* Estructura la experiencia final de smartphone, reajustando la cuadrícula de productos a 1 sola columna, achicando inputs del buscador, modificando las tarjetas del panel admin y ajustando márgenes. */
 @media (max-width: 768px) {
     .header-container {
         display: grid;
@@ -1398,7 +1399,6 @@ body.bg-light .whatsapp-float { display: none !important; }
         max-width: 100%;
     }
     
-    /* INPUT SIN LUPA (padding normal) */
     .search-container input {
         padding: 8px 12px;
         font-size: 0.85rem;
@@ -1406,7 +1406,6 @@ body.bg-light .whatsapp-float { display: none !important; }
         width: 100%;
     }
 
-    /* OCULTAR LA LUPA EN MÓVIL */
     .search-container i {
         display: none;
     }
@@ -1441,7 +1440,6 @@ body.bg-light .whatsapp-float { display: none !important; }
     }
     .nav-menu.active { right: 0 !important; }
     
-    /* Aseguramos que la lista no tenga puntos en móvil */
     .nav-menu .nav-list {
         list-style: none !important;
         padding: 0 !important;
@@ -1457,7 +1455,6 @@ body.bg-light .whatsapp-float { display: none !important; }
         margin: 0;
     }
     
-    /* BOTONES MÓVIL MÁS ALTOS Y CON BORDE INFERIOR */
     .nav-menu .nav-list li a {
         display: flex;
         align-items: center;
@@ -1571,7 +1568,6 @@ body.bg-light .whatsapp-float { display: none !important; }
         min-width: 70px;
     }
     
-    /* PRODUCTOS 1 EN 1 (MÓVIL) */
     .product-grid {
         grid-template-columns: 1fr;
         gap: 25px;
@@ -1627,7 +1623,6 @@ body.bg-light .whatsapp-float { display: none !important; }
         gap: 4px;
     }
     
-    /* Panel Admin - Ajustes móvil (correcciones de espaciado) */
     .admin-panel .header-container {
         padding: 0 20px !important;
     }
@@ -1636,7 +1631,6 @@ body.bg-light .whatsapp-float { display: none !important; }
         display: none;
     }
     
-    /* OCULTA EL TEXTO "BARBERADMIN" EN MÓVIL */
     .admin-panel .logo {
         display: none;
     }
@@ -1693,7 +1687,8 @@ body.bg-light .whatsapp-float { display: none !important; }
     }
 }
 
-/* ===== PANEL ADMIN ===== */
+/* ===== PANEL DE ADMINISTRACIÓN ===== */
+/* Crea la interfaz de administración: padings superiores para el header fijo, el diseño de la insignia de usuario y los contadores estadísticos en forma de píldora. */
 .admin-panel { padding-top: 120px; min-height: 100vh; }
 
 .admin-header { 
@@ -1778,6 +1773,8 @@ body.bg-light .whatsapp-float { display: none !important; }
     font-size: 0.9rem;
 }
 
+/* ===== FORMULARIO DE ADMINISTRACIÓN ===== */
+/* Estiliza los campos de registro de productos en admin, dándole borde curvo a los inputs, creando la caja de previsualización de imágenes subidas y los botones de acción como Guardar o Borrar. */
 .admin-form-container { 
     background: white; 
     padding: 40px; 
@@ -1843,7 +1840,8 @@ body.bg-light .whatsapp-float { display: none !important; }
     color: black;
 }
 
-/* Login Admin */
+/* ===== PÁGINA DE LOGIN ADMINISTRATIVO ===== */
+/* Pule la vista de la tarjeta de inicio de sesión centrándola en la pantalla. Genera los campos con iconos interiores y el botón del "ojito" para ocultar o revelar contraseñas antes de entrar. */
 .login-container { 
     min-height: 100vh; 
     display: flex; 
